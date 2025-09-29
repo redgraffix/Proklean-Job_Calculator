@@ -4,7 +4,6 @@ jQuery(document).ready(function($){
 
     const CalcController = function() {
 
-        // === Classes and helpers ===
         function Job(calculatorNode){
             this.node = calculatorNode;
             this.jobType = jobTypesByName[calculatorNode.find("#jobTypes").val()];
@@ -95,8 +94,8 @@ jQuery(document).ready(function($){
             this.liquidPackets = 0;
         }
 
-        // === JobCategory, JobGrade, JobType ===
         function JobCategory(name) { this.name = name; }
+
         const pathogenJobCategory = new JobCategory("Pathogen");
         const odorJobCategory = new JobCategory("Odor");
 
@@ -142,15 +141,24 @@ jQuery(document).ready(function($){
             this.jobCategory = jobCategory;
             this.jobGrade = jobGrade;
         }
+
+        // --- JOB TYPES ARRAY: add new job types here ---
         const jobTypes = [
             new JobType("Deodorization", odorJobCategory, standardStrength),
-            new JobType("Disinfection", pathogenJobCategory, standardStrength)
+            new JobType("Disinfection", pathogenJobCategory, standardStrength),
+            new JobType("Proklean", pathogenJobCategory, extraStrength) // New job type example
         ].sort((a,b) => a.name.localeCompare(b.name));
 
+        // --- map by name ---
         const jobTypesByName = {};
         $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
 
-        // === Room creation ===
+        // --- populate dropdown dynamically ---
+        const $jobTypesDropdown = $("#jobTypes");
+        $jobTypesDropdown.empty().append("<option value=''>Select a Job Type</option>");
+        $.each(jobTypes, function(){ $jobTypesDropdown.append(`<option value="${this.name}">${this.name}</option>`); });
+
+        // DOM helpers
         const createRoom = function() {
             var currentRoomNumber = $(".room").length + 1;
             var room = $("<div />").addClass("room").attr("id", "room"+currentRoomNumber);
@@ -164,17 +172,6 @@ jQuery(document).ready(function($){
             results.append($("<div class='odorStuff'>Gas Packets:<strong><span class='odorPacketsToUse'>0</span></strong></div>"));
             room.append(results);
             $("#roomList").append(room);
-        };
-
-        // === Reset calculator ===
-        const resetCalculator = function(){
-            $("#roomList").empty();
-            createRoom();
-            $("#jobTypes").val("");
-            $("#calculations").hide();
-            $("#recalculateButton").show();
-            $('#disinfection-labels').hide();
-            $('#deodorization-labels').hide();
         };
 
         const recalcAndReset = function(){
@@ -195,34 +192,61 @@ jQuery(document).ready(function($){
             }
         };
 
-        // === Initial setup ===
+        // initial setup
         createRoom();
         recalcAndReset();
 
-        // === Event bindings ===
+        // Event bindings
         $(document).on('change', "#jobTypes", recalcAndReset);
         $(document).on('change keyup mousedown', ".input, .include", recalcAndReset);
-        $(document).on('click', "#addNewRoomContainer", function(){
+        $("#addNewRoomContainer").click(function(){
             createRoom();
             recalcAndReset();
         });
-        $(document).on('click', "#resetForm", function(){
-            resetCalculator();
+
+        // Enable/disable Get Instructions button
+        $jobTypesDropdown.change(function() {
+            $("#getInstructions").toggleClass("activate", $(this).val() !== "");
         });
 
-    };
+        // Get Instructions button click handler
+        $("#getInstructions").click(function() {
+            if(!$(this).hasClass("activate")) return;
 
-    // === Modal functions ===
-    const displayModal = function() { $("#myModal").show(); }
+            const selectedJobType = $jobTypesDropdown.val();
+            const job = jobTypesByName[selectedJobType];
+            let instructions = `${selectedJobType} Job Instructions:\n\n`;
+
+            $(".room").each(function(index, roomNode){
+                const $room = $(roomNode);
+                if($room.find(".include").prop("checked")) {
+                    const length = $room.find(".lengthInput").val();
+                    const width = $room.find(".widthInput").val();
+                    const height = $room.find(".heightInput").val();
+                    instructions += `Room ${index + 1}: ${length}L x ${width}W x ${height}H\n`;
+                }
+            });
+
+            $("#instructions").html(`<textarea style="width:100%; height:300px;">${instructions}</textarea>`);
+            $("#myModal").show();
+        });
+    }
+
     const Modal = function() {
         if(navigator.userAgent.match(/(iPhone|iPod)/g)){
             $("#copybutton").hide();
         }
-        $(".close").click(function() { $("#myModal").hide(); });
-        $(window).click(function(event){ if(event.target.id=="myModal") $("#myModal").hide(); });
-    };
 
-    // === Initialize everything ===
+        $(".close").click(function() {
+            $("#myModal").hide();
+        });
+
+        $(window).click(function(event){
+            if(event.target.id == "myModal") $("#myModal").hide();
+        });
+    }
+
+    // Initialize everything
     CalcController();
     Modal();
 
