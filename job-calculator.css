@@ -1,107 +1,146 @@
-/* ==============================
-   Job Calculator Plugin Styles
-   ============================== */
-
-.job-calculator {
+body {
 	font-family: 'Roboto', sans-serif;
 }
 
-.job-calculator .col,
-.job-calculator .col-1,
-.job-calculator .col-2,
-.job-calculator .col-3,
-.job-calculator .col-4,
-.job-calculator .col-5,
-.job-calculator .col-6,
-.job-calculator .col-7,
-.job-calculator .col-8,
-.job-calculator .col-9,
-.job-calculator .col-10,
-.job-calculator .col-11,
-.job-calculator .col-12 {
+.col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
 	position: relative;
 	min-height: 1px;
 	float: left;
 	padding: 0;
 }
-
 @media screen and (max-width: 650px) {
-	.job-calculator .col:not(:last-of-type),
-	.job-calculator .col-1:not(:last-of-type),
-	.job-calculator .col-2:not(:last-of-type),
-	.job-calculator .col-3:not(:last-of-type),
-	.job-calculator .col-4:not(:last-of-type),
-	.job-calculator .col-5:not(:last-of-type),
-	.job-calculator .col-6:not(:last-of-type),
-	.job-calculator .col-7:not(:last-of-type),
-	.job-calculator .col-8:not(:last-of-type),
-	.job-calculator .col-9:not(:last-of-type),
-	.job-calculator .col-10:not(:last-of-type),
-	.job-calculator .col-11:not(:last-of-type),
-	.job-calculator .col-12:not(:last-of-type) {
+	.col:not(:last-of-type), .col-1:not(:last-of-type), .col-2:not(:last-of-type), .col-3:not(:last-of-type), .col-4:not(:last-of-type), .col-5:not(:last-of-type), .col-6:not(:last-of-type), .col-7:not(:last-of-type), .col-8:not(:last-of-type), .col-9:not(:last-of-type), .col-10:not(:last-of-type), .col-11:not(:last-of-type), .col-12:not(:last-of-type) {
 		margin-bottom: 20px;
-	}
-	.job-calculator .col .col-mobile-12,
-	.job-calculator .col-1 .col-mobile-12,
-	.job-calculator .col-2 .col-mobile-12,
-	.job-calculator .col-3 .col-mobile-12,
-	.job-calculator .col-4 .col-mobile-12,
-	.job-calculator .col-5 .col-mobile-12,
-	.job-calculator .col-6 .col-mobile-12,
-	.job-calculator .col-7 .col-mobile-12,
-	.job-calculator .col-8 .col-mobile-12,
-	.job-calculator .col-9 .col-mobile-12,
-	.job-calculator .col-10 .col-mobile-12,
-	.job-calculator .col-11 .col-mobile-12,
-	.job-calculator .col-12 .col-mobile-12 {
+   }
+	.col .col-mobile-12, .col-1 .col-mobile-12, .col-2 .col-mobile-12, .col-3 .col-mobile-12, .col-4 .col-mobile-12, .col-5 .col-mobile-12, .col-6 .col-mobile-12, .col-7 .col-mobile-12, .col-8 .col-mobile-12, .col-9 .col-mobile-12, .col-10 .col-mobile-12, .col-11 .col-mobile-12, .col-12 .col-mobile-12 {
 		padding-left: 0 !important;
-	}
+   }
 }
-
-.job-calculator .col-1 { width: 8.3333333333%; }
-.job-calculator .col-2 { width: 16.6666666667%; }
-.job-calculator .col-3 { width: 25%; }
-.job-calculator .col-4 { width: 33.3333333333%; }
-.job-calculator .col-5 { width: 41.6666666667%; }
-.job-calculator .col-6 { width: 50%; }
-.job-calculator .col-7 { width: 58.3333333333%; }
-.job-calculator .col-8 { width: 66.6666666667%; }
-.job-calculator .col-9 { width: 75%; }
-.job-calculator .col-10 { width: 83.3333333333%; }
-.job-calculator .col-11 { width: 91.6666666667%; }
-.job-calculator .col-12 { width: 100%; }
-
+.col-1 {
+	width: 8.3333333333%;
+}
+.col-2 {
+	width: 16.6666666667%;
+}
+.col-3 {
+	width: 25%;
+}
+.col-4 {
+	width: 33.3333333333%;
+}
+.col-5 {
+	width: 41.6666666667%;
+}
+.col-6 {
+	width: 50%;
+}
+.col-7 {
+	width: 58.3333333333%;
+}
+.col-8 {
+	width: 66.6666666667%;
+}
+.col-9 {
+	width: 75%;
+}
+.col-10 {
+	width: 83.3333333333%;
+}
+.col-11 {
+	width: 91.6666666667%;
+}
+.col-12 {
+	width: 100%;
+}
 @media screen and (max-width: 1000px) {
-	.job-calculator .col-tablet-1 { width: 8.3333333333%; padding: 0; }
-	.job-calculator .col-tablet-2 { width: 16.6666666667%; padding: 0; }
-	.job-calculator .col-tablet-3 { width: 25%; padding: 0; }
-	.job-calculator .col-tablet-4 { width: 33.3333333333%; padding: 0; }
-	.job-calculator .col-tablet-5 { width: 41.6666666667%; padding: 0; }
-	.job-calculator .col-tablet-6 { width: 50%; padding: 0; }
-	.job-calculator .col-tablet-7 { width: 58.3333333333%; padding: 0; }
-	.job-calculator .col-tablet-8 { width: 66.6666666667%; padding: 0; }
-	.job-calculator .col-tablet-9 { width: 75%; padding: 0; }
-	.job-calculator .col-tablet-10 { width: 83.3333333333%; padding: 0; }
-	.job-calculator .col-tablet-11 { width: 91.6666666667%; padding: 0; }
-	.job-calculator .col-tablet-12 { width: 100%; padding: 0; }
+	.col-tablet-1 {
+		width: 8.3333333333%;
+		padding: 0;
+   }
+	.col-tablet-2 {
+		width: 16.6666666667%;
+		padding: 0;
+   }
+	.col-tablet-3 {
+		width: 25%;
+		padding: 0;
+   }
+	.col-tablet-4 {
+		width: 33.3333333333%;
+		padding: 0;
+   }
+	.col-tablet-5 {
+		width: 41.6666666667%;
+		padding: 0;
+   }
+	.col-tablet-6 {
+		width: 50%;
+		padding: 0;
+   }
+	.col-tablet-7 {
+		width: 58.3333333333%;
+		padding: 0;
+   }
+	.col-tablet-8 {
+		width: 66.6666666667%;
+		padding: 0;
+   }
+	.col-tablet-9 {
+		width: 75%;
+		padding: 0;
+   }
+	.col-tablet-10 {
+		width: 83.3333333333%;
+		padding: 0;
+   }
+	.col-tablet-11 {
+		width: 91.6666666667%;
+		padding: 0;
+   }
+	.col-tablet-12 {
+		width: 100%;
+		padding: 0;
+   }
 }
-
 @media screen and (max-width: 650px) {
-	.job-calculator .col-mobile-1 { width: 8.3333333333%; }
-	.job-calculator .col-mobile-2 { width: 16.6666666667%; }
-	.job-calculator .col-mobile-3 { width: 25%; }
-	.job-calculator .col-mobile-4 { width: 33.3333333333%; }
-	.job-calculator .col-mobile-5 { width: 41.6666666667%; }
-	.job-calculator .col-mobile-6 { width: 50%; }
-	.job-calculator .col-mobile-7 { width: 58.3333333333%; }
-	.job-calculator .col-mobile-8 { width: 66.6666666667%; }
-	.job-calculator .col-mobile-9 { width: 75%; }
-	.job-calculator .col-mobile-10 { width: 83.3333333333%; }
-	.job-calculator .col-mobile-11 { width: 91.6666666667%; }
-	.job-calculator .col-mobile-12 { width: 100%; }
+	.col-mobile-1 {
+		width: 8.3333333333%;
+   }
+	.col-mobile-2 {
+		width: 16.6666666667%;
+   }
+	.col-mobile-3 {
+		width: 25%;
+   }
+	.col-mobile-4 {
+		width: 33.3333333333%;
+   }
+	.col-mobile-5 {
+		width: 41.6666666667%;
+   }
+	.col-mobile-6 {
+		width: 50%;
+   }
+	.col-mobile-7 {
+		width: 58.3333333333%;
+   }
+	.col-mobile-8 {
+		width: 66.6666666667%;
+   }
+	.col-mobile-9 {
+		width: 75%;
+   }
+	.col-mobile-10 {
+		width: 83.3333333333%;
+   }
+	.col-mobile-11 {
+		width: 91.6666666667%;
+   }
+	.col-mobile-12 {
+		width: 100%;
+   }
 }
-
-.job-calculator .row {
+.row {
 	position: relative;
 	width: 100%;
 	padding: 10vh 3.12vw;
@@ -110,43 +149,68 @@
 	flex-wrap: wrap;
 	z-index: 10;
 }
-.job-calculator .row:after {
+.row:after {
 	content: "";
 	display: table;
 	clear: both;
 	table-layout: fixed;
 }
 @media screen and (max-width: 650px) {
-	.job-calculator .row { padding: 40px 20px; }
+	.row {
+		padding: 40px 20px;
+   }
 }
-.job-calculator .row.double-spacing {
+.row.double-spacing {
 	padding-top: 20vh;
 	padding-bottom: 20vh;
 }
 @media screen and (max-width: 650px) {
-	.job-calculator .row.double-spacing { padding: 40px 20px; }
+	.row.double-spacing {
+		padding: 40px 20px;
+   }
 }
-.job-calculator .row.no-side-padding { padding-left: 0; padding-right: 0; }
-.job-calculator .row.no-padding { padding: 0; }
-.job-calculator .row.no-padding-sides { padding-left: 0; padding-right: 0; }
-.job-calculator .row.no-padding-top { padding-top: 0; }
-.job-calculator .row.no-padding-right { padding-right: 0; }
-.job-calculator .row.no-padding-bottom { padding-bottom: 0; }
-.job-calculator .row.no-padding-left { padding-left: 0; }
-.job-calculator .row.no-top-padding { padding-top: 0; }
-.job-calculator .row.no-bottom-padding { padding-bottom: 0; }
+.row.no-side-padding {
+	padding-left: 0;
+	padding-right: 0;
+}
+.row.no-padding {
+	padding: 0;
+}
+.row.no-padding-sides {
+	padding-left: 0;
+	padding-right: 0;
+}
+.row.no-padding-top {
+	padding-top: 0;
+}
+.row.no-padding-right {
+	padding-right: 0;
+}
+.row.no-padding-bottom {
+	padding-bottom: 0;
+}
+.row.no-padding-left {
+	padding-left: 0;
+}
+.row.no-top-padding {
+	padding-top: 0;
+}
+.row.no-bottom-padding {
+	padding-bottom: 0;
+}
 @media screen and (max-width: 650px) {
-	.job-calculator .row.no-padding-mobile-b-t {
+	.row.no-padding-mobile-b-t {
 		padding-bottom: 0;
 		padding-top: 0;
-	}
+   }
 }
 @media screen and (max-width: 650px) {
-	.job-calculator .row > .row { padding-bottom: 0; }
+	.row > .row {
+		padding-bottom: 0;
+   }
 }
 
-/* Modal */
-.job-calculator #myModal {
+#myModal {
 	 position: fixed;
 	 width: 100vw;
 	 height: 100vh;
@@ -155,7 +219,7 @@
 	 top: 0;
 	 left: 0;
 }
-.job-calculator #myModal .content {
+ #myModal .content {
 	 position: absolute;
 	 top: 50%;
 	 left: 50%;
@@ -163,18 +227,22 @@
 	 padding: 0px 40px;
 	 background: white;
 }
-@media screen and (max-width: 650px) {
-	.job-calculator #myModal .content { width: calc(100% - 40px); }
+ @media screen and (max-width: 650px) {
+	 #myModal .content {
+		 width: calc(100% - 40px);
+	}
 }
-.job-calculator #myModal h2 { color: #00b8de; }
-.job-calculator #myModal .close {
+ #myModal h2 {
+	 color: #00b8de;
+}
+ #myModal .close {
 	 top: -17px;
 	 right: 20px;
 	 opacity: 0.5;
 	 cursor: pointer;
 	 position: absolute;
 }
-.job-calculator #myModal .close p {
+ #myModal .close p {
 	 line-height: 1;
 	 position: relative;
 	 top: 0;
@@ -183,19 +251,21 @@
 	 transform-origin: center 54%;
 	 transition: transform 0.2s ease-out;
 }
-.job-calculator #myModal .close:hover p { transform: rotate(180deg); }
-.job-calculator #myModal .modal-header {
+ #myModal .close:hover p {
+	 transform: rotate(180deg);
+}
+ #myModal .modal-header {
 	 margin-bottom: 20px;
 	 width: calc(100% + 80px);
 	 margin-left: -40px;
 	 background: #00b8de;
 }
-.job-calculator #myModal .modal-header h2 {
+ #myModal .modal-header h2 {
 	 padding: 10px 40px;
 	 color: white;
 	 box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
 }
-.job-calculator #myModal .modal-footer {
+ #myModal .modal-footer {
 	 color: white;
 	 padding: 10px 40px;
 	 width: calc(100% + 80px);
@@ -203,7 +273,7 @@
 	 margin-top: 20px;
 	 box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
 }
-.job-calculator #myModal .modal-footer h3 {
+ #myModal .modal-footer h3 {
 	 background: #00b8de;
 	 max-width: 250px;
 	 padding: 10px 20px;
@@ -212,36 +282,61 @@
 	 text-align: center;
 	 cursor: pointer;
 }
-.job-calculator #myModal .modal-footer input { background: none; }
-
-@media screen and (max-width: 650px) {
-	.job-calculator .calc-container { padding-left: 0; padding-right: 0; }
+ #myModal .modal-footer input {
+	 background: none;
 }
-
-.job-calculator #calculator { width: 100%; }
-.job-calculator #calculator #addNewRoomContainer,
-.job-calculator #calculator #jobTypes { cursor: pointer; position: relative; }
-.job-calculator #calculator #addNewRoomContainer,
-.job-calculator #calculator a.resetButton { width: calc(100% - 40px); }
-.job-calculator #calculator #addNewRoom { -webkit-appearance: none; border: 0px; }
-.job-calculator #calculator #jobTypesContainer { position: relative; }
-.job-calculator #calculator #getInstructions { pointer-events: none; opacity: 0.2; }
-.job-calculator #calculator #getInstructions.activate { pointer-events: initial; opacity: 1; }
-.job-calculator #calculator .calc-row {
+ @media screen and (max-width: 650px) {
+	 .calc-container {
+		 padding-left: 0;
+		 padding-right: 0;
+	}
+}
+ #calculator {
+	 width: 100%;
+}
+ #calculator #addNewRoomContainer, #calculator #jobTypes {
+	 cursor: pointer;
+	 position: relative;
+}
+#calculator #addNewRoomContainer, #calculator a.resetButton {
+	width: calc(100% - 40px);
+}
+#calculator #addNewRoom {
+	-webkit-appearance: none;
+	border: 0px;
+}
+ #calculator #jobTypesContainer {
+	 position: relative;
+}
+ #calculator #getInstructions {
+	 pointer-events: none;
+	 opacity: 0.2;
+}
+ #calculator #getInstructions.activate {
+	 pointer-events: initial;
+	 opacity: 1;
+}
+ #calculator .calc-row {
 	 padding: 40px 20px;
 	 width: calc(100% - 40px);
 }
-.job-calculator #calculator h3 { color: #00b8de; }
-.job-calculator #calculator select { margin: 20px 0; }
-.job-calculator #calculator .right-col { padding-left: 15px; }
-.job-calculator #calculator #recalculateButton {
+ #calculator h3 {
+	 color: #00b8de;
+}
+ #calculator select {
+	 margin: 20px 0;
+}
+ #calculator .right-col {
+	 padding-left: 15px;
+}
+ #calculator #recalculateButton {
 	 margin: 20px 0 0 !important;
 	 padding: 10px 20px;
 	 color: white !important;
 	 font-weight: 500 !important;
 	 width: 80%;
 }
-.job-calculator #calculator .box {
+ #calculator .box {
 	 box-shadow: 3px 4px 46px -12px rgba(0, 0, 0, 0.55);
 	 width: 100%;
 	 padding: 20px;
@@ -253,36 +348,42 @@
 	 font-weight: 500;
 	 transition: background 0.3s ease-out;
 }
-.job-calculator #calculator .box:hover { background: #d8d8d8; }
-.job-calculator #calculator .box.blue {
+ #calculator .box:hover {
+	 background: #d8d8d8;
+}
+ #calculator .box.blue {
 	 background: #00b8de;
 	 color: white;
 	 margin-bottom: 20px;
 }
-.job-calculator #calculator .box.blue input { background: none; }
-.job-calculator #calculator .box.blue:hover { background: #00a3c5; }
-.job-calculator #calculator #projectResults {
+ #calculator .box.blue input {
+	 background: none;
+}
+ #calculator .box.blue:hover {
+	 background: #00a3c5;
+}
+ #calculator #projectResults {
 	 border: none;
 	 background: #def9ff;
 	 color: #1a1718;
 	 line-height: 1.5;
 	 width: calc(100% - 40px);
 }
-.job-calculator #calculator #projectResults > div {
+ #calculator #projectResults > div {
 	 font-weight: normal;
 	 color: #1a1718;
 }
-.job-calculator #calculator #projectResults hr {
+ #calculator #projectResults hr {
 	 margin: 5px 0;
 	 border-bottom: solid 1px white;
 }
-.job-calculator #calculator #projectResults .box {
+ #calculator #projectResults .box {
 	 text-align: center;
 	 border: none;
 	 box-shadow: none;
 	 cursor: pointer;
 }
-.job-calculator #calculator .room {
+ #calculator .room {
 	 display: inline-block;
 	 width: calc(33% - 30px);
 	 min-width: 260px;
@@ -290,47 +391,54 @@
 	 padding: 10px;
 	 margin: 15px;
 }
-.job-calculator #calculator .room > div:not(:last-of-type) { margin-bottom: 10px; }
-.job-calculator #calculator .room > div {
+ #calculator .room > div:not(:last-of-type) {
+	 margin-bottom: 10px;
+}
+ #calculator .room > div {
 	 display: flex;
 	 align-items: center;
 }
-.job-calculator #calculator .room > div input {
+ #calculator .room > div input {
 	 display: block;
 	 margin-left: 20px;
 	 width: 70%;
 	 border: solid 1px #e5e5e5;
 	 padding: 5px 10px;
 }
-.job-calculator #calculator .room > div:first-of-type {
+ #calculator .room > div:first-of-type {
 	 justify-content: space-between;
 }
-.job-calculator #calculator .room > div:first-of-type span,
-.job-calculator #calculator .room > div:first-of-type input { width: auto; }
-.job-calculator #calculator .room > div:first-of-type span {
+ #calculator .room > div:first-of-type span, #calculator .room > div:first-of-type input {
+	 width: auto;
+}
+ #calculator .room > div:first-of-type span {
 	 font-weight: 500;
 	 color: #00b8de;
 }
-.job-calculator #calculator .room > div:first-of-type input {
+ #calculator .room > div:first-of-type input {
 	 -webkit-appearance: none;
 	 padding: 10px;
 	 position: relative;
 }
-.job-calculator #calculator .room > div:first-of-type input:checked { background: #00b8de; }
-.job-calculator #calculator .room > div:first-of-type input:checked:after {
+ #calculator .room > div:first-of-type input:checked {
+	 background: #00b8de;
+}
+ #calculator .room > div:first-of-type input:checked:after {
 	 content: "\2713";
 	 position: absolute;
 	 left: 5px;
 	 top: -2px;
 	 color: white;
 }
-.job-calculator #calculator .room span { display: inline-block; }
-.job-calculator #calculator .room p {
+ #calculator .room span {
+	 display: inline-block;
+}
+ #calculator .room p {
 	 font-size: 16px;
 	 font-weight: 500;
 	 width: 30%;
 }
-.job-calculator #calculator .room div.results {
+ #calculator .room div.results {
 	 display: block;
 	 background: #e3faff;
 	 padding: 10px;
@@ -338,72 +446,78 @@
 	 color: #1a1718;
 	 line-height: 1.5;
 }
-.job-calculator #calculator .room div.results strong { margin-left: 5px; }
-
-@media screen and (max-width: 650px) {
-	.job-calculator #calculator .right-col { padding-left: 0; }
-	.job-calculator #calculator .calc-row { padding-left: 0; padding-right: 0; }
-	.job-calculator #calculator .room {
+ #calculator .room div.results strong {
+	 margin-left: 5px;
+}
+ @media screen and (max-width: 650px) {
+	 #calculator .right-col {
+		 padding-left: 0;
+	}
+	 #calculator .calc-row {
+		 padding-left: 0;
+		 padding-right: 0;
+	}
+	 #calculator .room {
 		 width: 100%;
 		 min-width: initial;
 		 margin: 0;
 		 padding: 20px;
 	}
 }
-
-/* Arrows */
-.job-calculator .arrow {
+ .arrow {
 	 position: absolute;
 	 transform-origin: center center;
 	 pointer-events: none;
 	 right: 0px;
 	 top: 50px;
 }
-.job-calculator .arrow span {
+ .arrow span {
 	 position: relative;
 	 display: inline-block;
 	 width: 20px;
 	 border-bottom: solid 3px #00b8de;
 }
-.job-calculator .arrow span:first-of-type {
+ .arrow span:first-of-type {
 	top: 9px;
-	transform: rotate(45deg);
+    transform: rotate(45deg);
 }
-.job-calculator .arrow span:last-of-type {    
+ .arrow span:last-of-type {    
 	top: 22px;
-	left: -23px;
-	transform: rotate(-45deg);
+    left: -23px;
+    transform: rotate(-45deg);
 }
-.job-calculator .arrow.down { transform: rotate(90deg); color: #00b8de; }
-.job-calculator .arrow.right { top: 0px; right: 10px; }
-.job-calculator .arrow.right span { border-bottom-color: white; }
-.job-calculator .arrow.add,
-.job-calculator .arrow.reset { top: 0px; right: 10px; }
-.job-calculator .arrow.add span,
-.job-calculator .arrow.reset span {
+ .arrow.down {
+	 transform: rotate(90deg);
+	 color: #00b8de;
+}
+ .arrow.right {
+	 top: 0px;
+	 right: 10px;
+}
+ .arrow.right span {
+	 border-bottom-color: white;
+}
+ .arrow.add, .arrow.reset {
+	 top: 0px;
+	 right: 10px;
+}
+ .arrow.add span, .arrow.reset span {
 	 width: 25px;
 	 border-bottom-color: white;
 }
-.job-calculator .arrow.add span:first-of-type,
-.job-calculator .arrow.reset span:first-of-type {
+ .arrow.add span:first-of-type, .arrow.reset span:first-of-type {
 	 top: 15px;
 	 left: 5px;
 	 transform: rotate(0deg);
 }
-.job-calculator .arrow.add span:last-of-type,
-.job-calculator .arrow.reset span:last-of-type {
+ .arrow.add span:last-of-type, .arrow.reset span:last-of-type {
 	 top: 15px;
 	 transform: rotate(90deg);
 }
-.job-calculator .arrow.reset {
+ .arrow.reset {
 	 right: -2px;
 	 top: 12px;
 	 transform: rotate(45deg);
 }
 
-/* Reset images, inputs, selects */
-.job-calculator img,
-.job-calculator input,
-.job-calculator select {
-	 max-width: 100%;
-}
+img, input, select { max-width: 100%; }
