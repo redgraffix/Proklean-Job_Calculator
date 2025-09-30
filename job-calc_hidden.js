@@ -2,6 +2,62 @@ jQuery(document).ready(function($){
 
     let extraGallons;
 
+    // --- JobCategory, JobGrade, JobType ---
+    function JobCategory(name) { this.name = name; }
+    const pathogenJobCategory = new JobCategory("Pathogen");
+    const odorJobCategory = new JobCategory("Odor");
+
+    function JobGrade(name, squareFeetPerGallon, gallonsPerBatch, packetsPerBatch, cubicFeetPerPacket, hoursToAirOut){
+        this.name = name;
+        this.squareFeetPerGallon = squareFeetPerGallon;
+        this.gallonsPerBatch = gallonsPerBatch;
+        this.packetsPerBatch = packetsPerBatch;
+        this.cubicFeetPerPacket = cubicFeetPerPacket;
+        this.hoursToAirOut = hoursToAirOut;
+
+        this.calculateGallonsNeededForSprayByArea = function(area){
+            var extraArea = area % this.squareFeetPerGallon;
+            var gallons = Math.floor((area - extraArea) / this.squareFeetPerGallon);
+            if(extraArea > 0) gallons++;
+            return gallons;
+        }
+        this.calculateNumberOfBatchesNeededForGallonsRequired = function(gallons){
+            var extraGallons = gallons % this.gallonsPerBatch;
+            var batches = Math.floor((gallons - extraGallons) / this.gallonsPerBatch);
+            if(extraGallons > 0) batches++;
+            return (batches == 0 ? 1 : batches);
+        }
+        this.calculateNumberOfPacketsNeededForSolutionPreparation = function(batches){
+            return (batches > 0 ? batches : 1) * this.packetsPerBatch;
+        }
+        this.calculateNumberOfGallonsNeededForSoutionPreparation = function(batches){
+            return (batches > 0 ? batches : 1) * this.gallonsPerBatch;
+        }
+        this.calculateNumberOfGasPacketsNeeded = function(volume){
+            var extraFeet = volume % this.cubicFeetPerPacket;
+            var packets = Math.floor(volume / this.cubicFeetPerPacket);
+            if(extraFeet > 0) packets++;
+            return packets;
+        }
+    }
+
+    const standardStrength = new JobGrade("Standard Strength", 250, 5, 1, 1000, 1);
+    const extraStrength = new JobGrade("Extra Strength", 100, 5, 2, 1000, 3);
+
+    function JobType(name, jobCategory, jobGrade){
+        this.name = name;
+        this.jobCategory = jobCategory;
+        this.jobGrade = jobGrade;
+    }
+    const jobTypes = [
+        new JobType("Deodorization", odorJobCategory, standardStrength),
+        new JobType("Disinfection", pathogenJobCategory, standardStrength)
+    ].sort((a,b) => a.name.localeCompare(b.name));
+
+    const jobTypesByName = {};
+    $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
+
+    // --- Main Controller ---
     const CalcController = function() {
 
         function Job(calculatorNode){
@@ -49,10 +105,14 @@ jQuery(document).ready(function($){
 
         function Room(roomNode){
             this.node = $(roomNode);
-            this.name = this.node.find(".name").text();
+            this.name = this.node.find(".name").val();
             this.results = new Results();
 
             var self = this;
+            this.node.find(".name").on("input", function(){
+                self.name = $(this).val();
+            });
+
             $.each(["length", "width", "height"], function(index, property){
                 self[property] = parseFloat(self.node.find("."+ property +"Input").val());
                 if(isNaN(self[property])) self[property] = 0;
@@ -72,7 +132,6 @@ jQuery(document).ready(function($){
                     results.gasPackets = jobType.jobGrade.calculateNumberOfGasPacketsNeeded(this.volume);
                     results.gallonsRequired = jobType.jobGrade.calculateGallonsNeededForSprayByArea(this.area);
                 }
-
                 return results;
             }
 
@@ -94,81 +153,27 @@ jQuery(document).ready(function($){
             this.liquidPackets = 0;
         }
 
-        // JobCategory, JobGrade, JobType
-        function JobCategory(name) { this.name = name; }
-        const pathogenJobCategory = new JobCategory("Pathogen");
-        const odorJobCategory = new JobCategory("Odor");
-
-        function JobGrade(name, squareFeetPerGallon, gallonsPerBatch, packetsPerBatch, cubicFeetPerPacket, hoursToAirOut){
-            this.name = name;
-            this.squareFeetPerGallon = squareFeetPerGallon;
-            this.gallonsPerBatch = gallonsPerBatch;
-            this.packetsPerBatch = packetsPerBatch;
-            this.cubicFeetPerPacket = cubicFeetPerPacket;
-            this.hoursToAirOut = hoursToAirOut;
-
-            this.calculateGallonsNeededForSprayByArea = function(area){
-                var extraArea = area % this.squareFeetPerGallon;
-                var gallons = Math.floor((area - extraArea) / this.squareFeetPerGallon);
-                if(extraArea > 0) gallons++;
-                return gallons;
-            }
-            this.calculateNumberOfBatchesNeededForGallonsRequired = function(gallons){
-                var extraGallons = gallons % this.gallonsPerBatch;
-                var batches = Math.floor((gallons - extraGallons) / this.gallonsPerBatch);
-                if(extraGallons > 0) batches++;
-                return (batches == 0 ? 1 : batches);
-            }
-            this.calculateNumberOfPacketsNeededForSolutionPreparation = function(batches){
-                return (batches > 0 ? batches : 1) * this.packetsPerBatch;
-            }
-            this.calculateNumberOfGallonsNeededForSoutionPreparation = function(batches){
-                return (batches > 0 ? batches : 1) * this.gallonsPerBatch;
-            }
-            this.calculateNumberOfGasPacketsNeeded = function(volume){
-                var extraFeet = volume % this.cubicFeetPerPacket;
-                var packets = Math.floor(volume / this.cubicFeetPerPacket);
-                if(extraFeet > 0) packets++;
-                return packets;
-            }
-        }
-
-        const standardStrength = new JobGrade("Standard Strength", 250, 5, 1, 1000, 1);
-        const extraStrength = new JobGrade("Extra Strength", 100, 5, 2, 1000, 3);
-
-        function JobType(name, jobCategory, jobGrade){
-            this.name = name;
-            this.jobCategory = jobCategory;
-            this.jobGrade = jobGrade;
-        }
-        const jobTypes = [
-            new JobType("Deodorization", odorJobCategory, standardStrength),
-            new JobType("Disinfection", pathogenJobCategory, standardStrength)
-        ].sort((a,b) => a.name.localeCompare(b.name));
-
-        const jobTypesByName = {};
-        $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
-
-        // Populate jobTypes dropdown
-        const $jobTypesDropdown = $("#jobTypes");
-        $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
-        $.each(jobTypes, function(i, jt){
-            $jobTypesDropdown.append(`<option value='${jt.name}'>${jt.name}</option>`);
-        });
-
-        // DOM helpers
+        // --- DOM helpers ---
         const createRoom = function() {
             var currentRoomNumber = $(".room").length + 1;
             var room = $("<div />").addClass("room").attr("id", "room"+currentRoomNumber);
-            room.append($("<div><span class='name'>Room No. " + currentRoomNumber + "</span><input type='checkbox' checked class='include'></div>"));
+
+            room.append(
+                $("<div>")
+                    .append(`<input type='text' class='name' value='Room No. ${currentRoomNumber}' />`)
+                    .append("<input type='checkbox' checked class='include'>")
+            );
+
             room.append($("<div><p>Length</p><input type='number' class='input lengthInput' value='1'></div>"));
             room.append($("<div><p>Width</p><input type='number' class='input widthInput' value='1'></div>"));
             room.append($("<div class='odorStuff'><p>Height</p><input type='number' class='input heightInput' value='1'></div>"));
+
             var results = $("<div />").addClass("results");
             results.append($("<div>Square Feet:<strong><span class='squareFeet'>0</span></strong></div>"));
             results.append($("<div class='odorStuff'>Cubic Feet:<strong><span class='cubicFeet'>0</span></strong></div>"));
             results.append($("<div class='odorStuff'>Gas Packets:<strong><span class='odorPacketsToUse'>0</span></strong></div>"));
             room.append(results);
+
             $("#roomList").append(room);
         };
 
@@ -190,19 +195,25 @@ jQuery(document).ready(function($){
             }
         };
 
-        // initial setup
+        // --- Initial setup ---
+        // populate dropdown
+        const $jobTypesDropdown = $("#jobTypes");
+        $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
+        $.each(jobTypes, function(i, jt){
+            $jobTypesDropdown.append(`<option value='${jt.name}'>${jt.name}</option>`);
+        });
+
         createRoom();
         recalcAndReset();
 
-        // Event bindings
+        // --- Event bindings ---
         $(document).on('change', "#jobTypes", recalcAndReset);
-        $(document).on('change keyup mousedown', ".input, .include", recalcAndReset);
+        $(document).on('change keyup mousedown', ".input, .include, .name", recalcAndReset);
         $("#addNewRoomContainer").click(function(){
             createRoom();
             recalcAndReset();
         });
 
-        // Get Instructions button
         $("#jobTypes").change(function(){
             $("#getInstructions").toggleClass("activate", $(this).val() !== "");
         });
@@ -234,21 +245,6 @@ jQuery(document).ready(function($){
                 }
             });
 
-            message += "\n---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n";
-            message += "- Follow all safety and PPE instructions.\n- Tear open foil pouch, activate in water for 1 hour.\n- Apply liquid per room instructions.\n";
-
-            if(job.jobType.name == "Deodorization"){
-                message += "\n------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n";
-                message += "- Follow all safety instructions for gas deployment.\n- Place activated pouches in water, allow gas to work 4-6 hours.\n- Ventilate for 1 hour before re-entry.\n";
-            }
-
-            message += "\n---------------\nGlossary\n---------------\n";
-            message += "- Batch: 5 gallons of Proklean V (Liquid)\n";
-            message += "- Packets: Foil packets with inner white pouches\n";
-            message += "- Pouch(es): Mixture that creates liquid or gas ClO2\n";
-            message += "- Proklean V (Liquid) and Proklean G (Gas) - our products\n";
-            message += "- Job Type - Disinfection or Deodorization\n";
-
             return message;
         }
 
@@ -278,7 +274,7 @@ jQuery(document).ready(function($){
         });
     }
 
-    // Initialize everything
+    // Initialize
     CalcController();
     Modal();
 
