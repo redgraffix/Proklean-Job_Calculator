@@ -2,70 +2,15 @@ jQuery(document).ready(function($){
 
     let extraGallons;
 
-    // --- JobCategory, JobGrade, JobType ---
-    function JobCategory(name) { this.name = name; }
-    const pathogenJobCategory = new JobCategory("Pathogen");
-    const odorJobCategory = new JobCategory("Odor");
-
-    function JobGrade(name, squareFeetPerGallon, gallonsPerBatch, packetsPerBatch, cubicFeetPerPacket, hoursToAirOut){
-        this.name = name;
-        this.squareFeetPerGallon = squareFeetPerGallon;
-        this.gallonsPerBatch = gallonsPerBatch;
-        this.packetsPerBatch = packetsPerBatch;
-        this.cubicFeetPerPacket = cubicFeetPerPacket;
-        this.hoursToAirOut = hoursToAirOut;
-
-        this.calculateGallonsNeededForSprayByArea = function(area){
-            var extraArea = area % this.squareFeetPerGallon;
-            var gallons = Math.floor((area - extraArea) / this.squareFeetPerGallon);
-            if(extraArea > 0) gallons++;
-            return gallons;
-        }
-        this.calculateNumberOfBatchesNeededForGallonsRequired = function(gallons){
-            var extraGallons = gallons % this.gallonsPerBatch;
-            var batches = Math.floor((gallons - extraGallons) / this.gallonsPerBatch);
-            if(extraGallons > 0) batches++;
-            return (batches == 0 ? 1 : batches);
-        }
-        this.calculateNumberOfPacketsNeededForSolutionPreparation = function(batches){
-            return (batches > 0 ? batches : 1) * this.packetsPerBatch;
-        }
-        this.calculateNumberOfGallonsNeededForSoutionPreparation = function(batches){
-            return (batches > 0 ? batches : 1) * this.gallonsPerBatch;
-        }
-        this.calculateNumberOfGasPacketsNeeded = function(volume){
-            var extraFeet = volume % this.cubicFeetPerPacket;
-            var packets = Math.floor(volume / this.cubicFeetPerPacket);
-            if(extraFeet > 0) packets++;
-            return packets;
-        }
-    }
-
-    const standardStrength = new JobGrade("Standard Strength", 250, 5, 1, 1000, 1);
-    const extraStrength = new JobGrade("Extra Strength", 100, 5, 2, 1000, 3);
-
-    function JobType(name, jobCategory, jobGrade){
-        this.name = name;
-        this.jobCategory = jobCategory;
-        this.jobGrade = jobGrade;
-    }
-    const jobTypes = [
-        new JobType("Deodorization", odorJobCategory, standardStrength),
-        new JobType("Disinfection", pathogenJobCategory, standardStrength)
-    ].sort((a,b) => a.name.localeCompare(b.name));
-
-    const jobTypesByName = {};
-    $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
-
-    // --- Main Controller ---
     const CalcController = function() {
 
+        // Job Constructor
         function Job(calculatorNode){
             this.node = calculatorNode;
             this.jobType = jobTypesByName[calculatorNode.find("#jobTypes").val()];
-
             this.rooms = [];
             var self = this;
+
             $.each(calculatorNode.find(".room"), function(index, node){
                 self.rooms[index] = new Room(node);
             });
@@ -94,7 +39,7 @@ jQuery(document).ready(function($){
 
             this.results = results;
 
-            // Totals display (unchanged)
+            // Totals display remains unchanged
             this.node.find("#roomCount #answer").text(results.rooms);
             this.node.find("#sizes #squareFeet #answer").text(results.squareFeet);
             this.node.find("#calculations #gallonsRequired #answer").text(results.gallonsRequired);
@@ -104,15 +49,13 @@ jQuery(document).ready(function($){
             this.node.find("#calculations #gasPacketsToUse #answer").text(results.gasPackets);
         }
 
+        // Room Constructor
         function Room(roomNode){
             this.node = $(roomNode);
-            this.name = this.node.find(".name").val();
+            this.nameInput = this.node.find(".nameInput");
+            this.name = this.nameInput.val();
             this.results = new Results();
-
             var self = this;
-            this.node.find(".name").on("input", function(){
-                self.name = $(this).val();
-            });
 
             $.each(["length", "width", "height"], function(index, property){
                 self[property] = parseFloat(self.node.find("."+ property +"Input").val());
@@ -122,6 +65,11 @@ jQuery(document).ready(function($){
             this.include = this.node.find(".include").prop('checked');
             this.area = this.width * this.length;
             this.volume = this.area * this.height;
+
+            // Update name dynamically
+            this.nameInput.on("input", function(){
+                self.name = $(this).val();
+            });
 
             this.getResults = function(jobType){
                 var results = new Results();
@@ -133,6 +81,7 @@ jQuery(document).ready(function($){
                     results.gasPackets = jobType.jobGrade.calculateNumberOfGasPacketsNeeded(this.volume);
                     results.gallonsRequired = jobType.jobGrade.calculateGallonsNeededForSprayByArea(this.area);
                 }
+
                 return results;
             }
 
@@ -143,6 +92,7 @@ jQuery(document).ready(function($){
             }
         }
 
+        // Results Constructor
         function Results(){
             this.rooms = 0;
             this.squareFeet = 0;
@@ -154,17 +104,75 @@ jQuery(document).ready(function($){
             this.liquidPackets = 0;
         }
 
-        // --- DOM helpers ---
+        // JobCategory, JobGrade, JobType
+        function JobCategory(name) { this.name = name; }
+        const pathogenJobCategory = new JobCategory("Pathogen");
+        const odorJobCategory = new JobCategory("Odor");
+
+        function JobGrade(name, squareFeetPerGallon, gallonsPerBatch, packetsPerBatch, cubicFeetPerPacket, hoursToAirOut){
+            this.name = name;
+            this.squareFeetPerGallon = squareFeetPerGallon;
+            this.gallonsPerBatch = gallonsPerBatch;
+            this.packetsPerBatch = packetsPerBatch;
+            this.cubicFeetPerPacket = cubicFeetPerPacket;
+            this.hoursToAirOut = hoursToAirOut;
+
+            this.calculateGallonsNeededForSprayByArea = function(area){
+                var extraArea = area % this.squareFeetPerGallon;
+                var gallons = Math.floor((area - extraArea) / this.squareFeetPerGallon);
+                if(extraArea > 0) gallons++;
+                return gallons;
+            }
+            this.calculateNumberOfBatchesNeededForGallonsRequired = function(gallons){
+                var extraGallons = gallons % this.gallonsPerBatch;
+                var batches = Math.floor((gallons - extraGallons) / this.gallonsPerBatch);
+                if(extraGallons > 0) batches++;
+                return (batches == 0 ? 1 : batches);
+            }
+            this.calculateNumberOfPacketsNeededForSolutionPreparation = function(batches){
+                return (batches > 0 ? batches : 1) * this.packetsPerBatch;
+            }
+            this.calculateNumberOfGallonsNeededForSoutionPreparation = function(batches){
+                return (batches > 0 ? batches : 1) * this.gallonsPerBatch;
+            }
+            this.calculateNumberOfGasPacketsNeeded = function(volume){
+                var extraFeet = volume % this.cubicFeetPerPacket;
+                var packets = Math.floor(volume / this.cubicFeetPerPacket);
+                if(extraFeet > 0) packets++;
+                return packets;
+            }
+        }
+
+        const standardStrength = new JobGrade("Standard Strength", 250, 5, 1, 1000, 1);
+        const extraStrength = new JobGrade("Extra Strength", 100, 5, 2, 1000, 3);
+
+        function JobType(name, jobCategory, jobGrade){
+            this.name = name;
+            this.jobCategory = jobCategory;
+            this.jobGrade = jobGrade;
+        }
+
+        const jobTypes = [
+            new JobType("Deodorization", odorJobCategory, standardStrength),
+            new JobType("Disinfection", pathogenJobCategory, standardStrength)
+        ].sort((a,b) => a.name.localeCompare(b.name));
+
+        const jobTypesByName = {};
+        $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
+
+        // Populate jobTypes dropdown
+        const $jobTypesDropdown = $("#jobTypes");
+        $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
+        $.each(jobTypes, function(i, jt){
+            $jobTypesDropdown.append(`<option value='${jt.name}'>${jt.name}</option>`);
+        });
+
+        // Create room
         const createRoom = function() {
             var currentRoomNumber = $(".room").length + 1;
             var room = $("<div />").addClass("room").attr("id", "room"+currentRoomNumber);
 
-            room.append(
-                $("<div>")
-                    .append(`<input type='text' class='name' value='Room No. ${currentRoomNumber}' />`)
-                    .append("<input type='checkbox' checked class='include'>")
-            );
-
+            room.append($("<div><input type='text' class='nameInput' value='Room No. "+currentRoomNumber+"'> <input type='checkbox' checked class='include'></div>"));
             room.append($("<div><p>Length</p><input type='number' class='input lengthInput' value='1'></div>"));
             room.append($("<div><p>Width</p><input type='number' class='input widthInput' value='1'></div>"));
             room.append($("<div class='odorStuff'><p>Height</p><input type='number' class='input heightInput' value='1'></div>"));
@@ -196,59 +204,68 @@ jQuery(document).ready(function($){
             }
         };
 
-        // --- Populate Job Types ---
-        const $jobTypesDropdown = $("#jobTypes");
-        $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
-        $.each(jobTypes, function(i, jt){
-            $jobTypesDropdown.append(`<option value='${jt.name}'>${jt.name}</option>`);
-        });
-
+        // Initial setup
         createRoom();
         recalcAndReset();
 
-        // --- Event bindings ---
-        $(document).on('change', "#jobTypes", recalcAndReset);
-        $(document).on('change keyup mousedown', ".input, .include, .name", recalcAndReset);
+        // Event bindings
+        $(document).on('change', "#jobTypes", function(){
+            $("#getInstructions").toggleClass("activate", $(this).val() !== "");
+            recalcAndReset();
+        });
+
+        $(document).on('change keyup input', ".input, .include, .nameInput", recalcAndReset);
+
         $("#addNewRoomContainer").click(function(){
             createRoom();
             recalcAndReset();
         });
 
-        $("#jobTypes").change(function(){
-            $("#getInstructions").toggleClass("activate", $(this).val() !== "");
-        });
-
-        // --- Reset button ---
-        $(document).on("click", ".resetButton", function(e) {
+        // Reset form
+        $(document).on('click', '.resetButton', function(e){
             e.preventDefault();
-            $("#jobTypes").val("");
             $("#roomList").empty();
             createRoom();
-            $("#roomCount #answer").text("0");
-            $("#sizes #squareFeet #answer").text("0");
-            $("#sizes #cubicFeet #answer").text("0");
-            $("#calculations #gallonsRequired #answer").text("0");
-            $("#calculations #gallonsToPrepare #answer").text("0");
-            $("#calculations #liquidPacketsToUse #answer").text("0");
-            $("#calculations #gasPacketsToUse #answer").text("0");
-            $("#instructions").empty();
-            $("#myModal").hide();
+            $("#jobTypes").val("");
             $("#getInstructions").removeClass("activate");
             recalcAndReset();
-            $("html, body").animate({ scrollTop: 0 }, "slow");
         });
 
-        // --- Instructions ---
+        // Instructions modal
+        $("#getInstructions").click(function(){
+            if(!$(this).hasClass("activate")) return;
+            const job = new Job($("#calculator"));
+            const instructions = createEmailForJob(job);
+            $("#instructions").html(`<textarea style="width:100%; height:400px;">${instructions}</textarea>`);
+            $("#myModal").show();
+        });
+
+        // Copy to clipboard
+        $("#copybutton").click(function(){
+            const $textarea = $("#instructions textarea");
+            $textarea.select();
+            document.execCommand("copy");
+            alert("Instructions copied to clipboard!");
+        });
+
+        // Print instructions
+        $("#printbutton").click(function(){
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<pre>' + $("#instructions textarea").val() + '</pre>');
+            printWindow.document.close();
+            printWindow.print();
+        });
+
         function createEmailForJob(job){
-            var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply Proklean. See EPA Labels for full directions and precautions.\n\n";
+            var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply Proklean.\n\n";
             message += "This is what you will need to finish this job:";
             var SKUNumber = job.jobType.name == "Deodorization" ? "205-V420R" : "205-V084R";
             var batches = job.results.batchesRequired + (job.results.batchesRequired == 1 ? " batch" : " batches");
-            message += "\n- Proklean V (Proklean Liquid): " + batches + " needed ("+ job.results.gallonsToPrepare +" Gallons with "+ job.results.liquidPackets + (job.results.liquidPackets == 1 ? " packet" : " packets") +") — SKU Number: " + SKUNumber;
+            message += "\n- Proklean V: " + batches + " needed ("+ job.results.gallonsToPrepare +" Gallons with "+ job.results.liquidPackets + (job.results.liquidPackets == 1 ? " packet" : " packets") +") — SKU: " + SKUNumber;
 
             if(job.jobType.name == "Deodorization"){
                 var packets = job.results.gasPackets + (job.results.gasPackets == 1 ? " packet" : " packets");
-                message += "\n- Proklean G (Proklean Gas): " + packets + " — SKU Number: 205-GF025RNC";
+                message += "\n- Proklean G: " + packets + " — SKU: 205-GF025RNC";
             }
 
             message += "\n\n---------------\nROOMS\n---------------\n";
@@ -258,108 +275,32 @@ jQuery(document).ready(function($){
                     message += "\n- " +  room.name;
                     message += "\n   W: " + room.width + ", L: " + room.length + ", H: " + room.height;
                     message += "\n   (" + room.area + " sq ft, " + room.volume + " cu ft)";
-                    message += "\n   Gallons for Proklean V (Proklean Liquid): " + roomResults.gallonsRequired;
+                    message += "\n   Gallons for Proklean V: " + roomResults.gallonsRequired;
                     if(job.jobType.jobCategory == odorJobCategory){
-                        message += "\n   Packets for Proklean G (Proklean Gas): " + roomResults.gasPackets;
+                        message += "\n   Packets for Proklean G: " + roomResults.gasPackets;
                     }
                     message += "\n";
                 }
             });
 
             message += "\n---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n";
-            message += "- Follow all safety and PPE instructions.\n- Tear open foil pouch, activate in water for 1 hour.\n- Apply liquid per room instructions.\n";
+            message += "- Follow all safety and PPE instructions.\n- Apply liquid per room instructions.\n";
 
             if(job.jobType.name == "Deodorization"){
                 message += "\n------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n";
-                message += "- Follow all safety instructions for gas deployment.\n- Place activated pouches in water, allow gas to work 4-6 hours.\n- Ventilate for 1 hour before re-entry.\n";
+                message += "- Follow all safety instructions for gas deployment.\n- Ventilate for 1 hour before re-entry.\n";
             }
-
-            message += "\n---------------\nGlossary\n---------------\n";
-            message += "- Batch: 5 gallons of Proklean V (Liquid)\n";
-            message += "- Packets: Foil packets with inner white pouches\n";
-            message += "- Pouch(es): Mixture that creates liquid or gas ClO2\n";
-            message += "- Proklean V (Liquid) and Proklean G (Gas) - our products\n";
-            message += "- Job Type - Disinfection or Deodorization\n";
 
             return message;
         }
 
-        function addModalButtons() {
-            const $footer = $("#myModal .modal-footer");
-            $footer.find(".buttonContainer").remove();
-
-            const $container = $("<div>").addClass("buttonContainer").css({
-                display: "flex",
-                gap: "10px",
-                marginTop: "10px"
-            });
-
-            const $copyButton = $("<button>")
-                .attr("id", "copybutton")
-                .text("Copy to Clipboard")
-                .addClass("box blue");
-
-            const $printButton = $("<button>")
-                .attr("id", "printbutton")
-                .text("Print Instructions")
-                .addClass("box blue");
-
-            $container.append($copyButton, $printButton);
-            $footer.append($container);
-        }
-
-        $("#getInstructions").click(function() {
-            if(!$(this).hasClass("activate")) return;
-
-            const job = new Job($("#calculator"));
-            const instructions = createEmailForJob(job);
-
-            $("#instructions").html(`<textarea style="width:100%; height:400px;">${instructions}</textarea>`);
-            $("#myModal").show();
-
-            addModalButtons();
-        });
-
-        // --- Copy ---
-        $(document).on("click", "#copybutton", function() {
-            const text = $("#instructions textarea").val();
-            if (!text) return;
-            navigator.clipboard.writeText(text).then(() => {
-                $("#instructions textarea").css("background-color", "#d4edda");
-                setTimeout(() => $("#instructions textarea").css("background-color", ""), 800);
-            });
-        });
-
-        // --- Print ---
-        $(document).on("click", "#printbutton", function() {
-            const instructions = $("#instructions textarea").val();
-            if (!instructions) return;
-            const printWindow = window.open('', '', 'width=800,height=600');
-            printWindow.document.write("<pre style='font-family:monospace; white-space:pre-wrap;'>" + instructions + "</pre>");
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
-        });
-
     }
 
-    // --- Modal ---
-    const Modal = function() {
-        if(navigator.userAgent.match(/(iPhone|iPod)/g)){
-            $("#copybutton").hide();
-        }
-
-        $(".close").click(function() {
-            $("#myModal").hide();
-        });
-
-        $(window).click(function(event){
-            if(event.target.id == "myModal") $("#myModal").hide();
-        });
+    const Modal = function(){
+        $(".close").click(function(){ $("#myModal").hide(); });
+        $(window).click(function(event){ if(event.target.id === "myModal") $("#myModal").hide(); });
     }
 
-    // --- Initialize ---
     CalcController();
     Modal();
 
