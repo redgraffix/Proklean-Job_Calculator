@@ -94,6 +94,7 @@ jQuery(document).ready(function($){
 
             this.results = results;
 
+            // Totals display (unchanged)
             this.node.find("#roomCount #answer").text(results.rooms);
             this.node.find("#sizes #squareFeet #answer").text(results.squareFeet);
             this.node.find("#calculations #gallonsRequired #answer").text(results.gallonsRequired);
@@ -195,7 +196,7 @@ jQuery(document).ready(function($){
             }
         };
 
-        // --- Initial setup ---
+        // --- Populate Job Types ---
         const $jobTypesDropdown = $("#jobTypes");
         $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
         $.each(jobTypes, function(i, jt){
@@ -265,7 +266,46 @@ jQuery(document).ready(function($){
                 }
             });
 
+            message += "\n---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n";
+            message += "- Follow all safety and PPE instructions.\n- Tear open foil pouch, activate in water for 1 hour.\n- Apply liquid per room instructions.\n";
+
+            if(job.jobType.name == "Deodorization"){
+                message += "\n------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n";
+                message += "- Follow all safety instructions for gas deployment.\n- Place activated pouches in water, allow gas to work 4-6 hours.\n- Ventilate for 1 hour before re-entry.\n";
+            }
+
+            message += "\n---------------\nGlossary\n---------------\n";
+            message += "- Batch: 5 gallons of Proklean V (Liquid)\n";
+            message += "- Packets: Foil packets with inner white pouches\n";
+            message += "- Pouch(es): Mixture that creates liquid or gas ClO2\n";
+            message += "- Proklean V (Liquid) and Proklean G (Gas) - our products\n";
+            message += "- Job Type - Disinfection or Deodorization\n";
+
             return message;
+        }
+
+        function addModalButtons() {
+            const $footer = $("#myModal .modal-footer");
+            $footer.find(".buttonContainer").remove();
+
+            const $container = $("<div>").addClass("buttonContainer").css({
+                display: "flex",
+                gap: "10px",
+                marginTop: "10px"
+            });
+
+            const $copyButton = $("<button>")
+                .attr("id", "copybutton")
+                .text("Copy to Clipboard")
+                .addClass("box blue");
+
+            const $printButton = $("<button>")
+                .attr("id", "printbutton")
+                .text("Print Instructions")
+                .addClass("box blue");
+
+            $container.append($copyButton, $printButton);
+            $footer.append($container);
         }
 
         $("#getInstructions").click(function() {
@@ -276,26 +316,35 @@ jQuery(document).ready(function($){
 
             $("#instructions").html(`<textarea style="width:100%; height:400px;">${instructions}</textarea>`);
             $("#myModal").show();
+
+            addModalButtons();
         });
 
-        // --- Modern Clipboard for Copy (silent with highlight) ---
+        // --- Copy ---
         $(document).on("click", "#copybutton", function() {
-            const $textarea = $("#instructions textarea");
-            const text = $textarea.val();
+            const text = $("#instructions textarea").val();
             if (!text) return;
-
-            navigator.clipboard.writeText(text).then(function() {
-                $textarea.css("background-color", "#d4edda"); // light green
-                setTimeout(() => $textarea.css("background-color", ""), 800);
-            }, function(err) {
-                console.error("Failed to copy instructions: ", err);
-                $textarea.css("background-color", "#f8d7da"); // light red for error
-                setTimeout(() => $textarea.css("background-color", ""), 1200);
+            navigator.clipboard.writeText(text).then(() => {
+                $("#instructions textarea").css("background-color", "#d4edda");
+                setTimeout(() => $("#instructions textarea").css("background-color", ""), 800);
             });
+        });
+
+        // --- Print ---
+        $(document).on("click", "#printbutton", function() {
+            const instructions = $("#instructions textarea").val();
+            if (!instructions) return;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write("<pre style='font-family:monospace; white-space:pre-wrap;'>" + instructions + "</pre>");
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
         });
 
     }
 
+    // --- Modal ---
     const Modal = function() {
         if(navigator.userAgent.match(/(iPhone|iPod)/g)){
             $("#copybutton").hide();
@@ -310,7 +359,7 @@ jQuery(document).ready(function($){
         });
     }
 
-    // Initialize everything
+    // --- Initialize ---
     CalcController();
     Modal();
 
