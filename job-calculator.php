@@ -1,12 +1,11 @@
-
 <?php
 /**
  * Plugin Name: Job Calculator
- * Plugin URI:  https://yourwebsite.com
+ * Plugin URI:  https://prokleanservices.com
  * Description: Job calculator for disinfection/deodorization projects.
  * Version:     1.0
  * Author:      Jason Rodgers
- * Author URI:  https://yourwebsite.com
+ * Author URI:  https://redgraffix.com
  */
 
 if (!defined('ABSPATH')) exit;
@@ -16,7 +15,6 @@ function jc_enqueue_scripts() {
     $plugin_url = plugin_dir_url(__FILE__);
     wp_enqueue_style('jc-styles', $plugin_url . 'styles.css');
     wp_enqueue_script('jc-js', $plugin_url . 'pk-calc_hidden.js', array('jquery'), false, true);
-    // Initialize JS after load
     wp_add_inline_script('jc-js', 'CalcController(); Modal();');
 }
 add_action('wp_enqueue_scripts', 'jc_enqueue_scripts');
@@ -32,35 +30,23 @@ function jc_display_calculator() {
                         <h3>Job Type</h3>
                         <div style="position: relative;">
                             <select class="box" id="jobTypes"></select>
-                            <div class="arrow down">
-                                <span></span>
-                                <span></span>
-                            </div>
+                            <div class="arrow down"><span></span><span></span></div>
                         </div>
                     </div>
                     <div id="leftcol">
                         <div id="addNewRoomContainer" class="box blue">
                             <input type="button" id="addNewRoom" value="Add Room" />
-                            <div class="arrow add">
-                                <span></span>
-                                <span></span>
-                            </div>
+                            <div class="arrow add"><span></span><span></span></div>
                         </div>
                         <div>
                             <div style="position: relative;">
                                 <input class="box blue" type="button" id="getInstructions" value="Get Instructions" />
-                                <div class="arrow right">
-                                    <span></span>
-                                    <span></span>
-                                </div>
+                                <div class="arrow right"><span></span><span></span></div>
                             </div>
                         </div>
                         <div style="position: relative;">
                             <a style="display: block;" class="resetButton box blue" href="#">Reset Form</a>
-                            <div class="arrow reset">
-                                <span></span>
-                                <span></span>
-                            </div>
+                            <div class="arrow reset"><span></span><span></span></div>
                         </div>
 
                         <div id="projectResults" class="box">
@@ -99,14 +85,14 @@ function jc_display_calculator() {
         <div id="myModal" class="modal" style="display: none;">
             <div class="content">
                 <div class="modal-content">
-                    <div class="modal-header"><span class="close"><p>&times;</p></span>
-                    <h2>ProKure Instructions</h2>
+                    <div class="modal-header">
+                        <span class="close"><p>&times;</p></span>
+                        <h2>ProKure Instructions</h2>
                     </div>
                     <div class="modal-body" id="instructions">&nbsp;</div>
                     <div class="modal-footer">
-                        <h3>
-                            <input type="button" id="copybutton" value="Copy to Clipboard" />
-                        </h3>
+                        <input type="button" id="copybutton" value="Copy to Clipboard" />
+                        <input type="button" id="printbutton" value="Print Instructions" />
                     </div>
                 </div>
             </div>
