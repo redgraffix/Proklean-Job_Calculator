@@ -94,8 +94,8 @@ jQuery(document).ready(function($){
             this.liquidPackets = 0;
         }
 
+        // JobCategory, JobGrade, JobType
         function JobCategory(name) { this.name = name; }
-
         const pathogenJobCategory = new JobCategory("Pathogen");
         const odorJobCategory = new JobCategory("Odor");
 
@@ -141,22 +141,20 @@ jQuery(document).ready(function($){
             this.jobCategory = jobCategory;
             this.jobGrade = jobGrade;
         }
-
-        // --- JOB TYPES ARRAY: add new job types here ---
         const jobTypes = [
             new JobType("Deodorization", odorJobCategory, standardStrength),
-            new JobType("Disinfection", pathogenJobCategory, standardStrength),
-            new JobType("Proklean", pathogenJobCategory, extraStrength) // New job type example
+            new JobType("Disinfection", pathogenJobCategory, standardStrength)
         ].sort((a,b) => a.name.localeCompare(b.name));
 
-        // --- map by name ---
         const jobTypesByName = {};
         $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
 
-        // --- populate dropdown dynamically ---
+        // Populate jobTypes dropdown
         const $jobTypesDropdown = $("#jobTypes");
-        $jobTypesDropdown.empty().append("<option value=''>Select a Job Type</option>");
-        $.each(jobTypes, function(){ $jobTypesDropdown.append(`<option value="${this.name}">${this.name}</option>`); });
+        $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
+        $.each(jobTypes, function(i, jt){
+            $jobTypesDropdown.append(`<option value='${jt.name}'>${jt.name}</option>`);
+        });
 
         // DOM helpers
         const createRoom = function() {
@@ -204,32 +202,66 @@ jQuery(document).ready(function($){
             recalcAndReset();
         });
 
-        // Enable/disable Get Instructions button
-        $jobTypesDropdown.change(function() {
+        // Get Instructions button
+        $("#jobTypes").change(function(){
             $("#getInstructions").toggleClass("activate", $(this).val() !== "");
         });
 
-        // Get Instructions button click handler
-        $("#getInstructions").click(function() {
-            if(!$(this).hasClass("activate")) return;
+        function createEmailForJob(job){
+            var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply Proklean. See EPA Labels for full directions and precautions.\n\n";
+            message += "This is what you will need to finish this job:";
+            var SKUNumber = job.jobType.name == "Deodorization" ? "205-V420R" : "205-V084R";
+            var batches = job.results.batchesRequired + (job.results.batchesRequired == 1 ? " batch" : " batches");
+            message += "\n- Proklean V (Proklean Liquid): " + batches + " needed ("+ job.results.gallonsToPrepare +" Gallons with "+ job.results.liquidPackets + (job.results.liquidPackets == 1 ? " packet" : " packets") +") — SKU Number: " + SKUNumber;
 
-            const selectedJobType = $jobTypesDropdown.val();
-            const job = jobTypesByName[selectedJobType];
-            let instructions = `${selectedJobType} Job Instructions:\n\n`;
+            if(job.jobType.name == "Deodorization"){
+                var packets = job.results.gasPackets + (job.results.gasPackets == 1 ? " packet" : " packets");
+                message += "\n- Proklean G (Proklean Gas): " + packets + " — SKU Number: 205-GF025RNC";
+            }
 
-            $(".room").each(function(index, roomNode){
-                const $room = $(roomNode);
-                if($room.find(".include").prop("checked")) {
-                    const length = $room.find(".lengthInput").val();
-                    const width = $room.find(".widthInput").val();
-                    const height = $room.find(".heightInput").val();
-                    instructions += `Room ${index + 1}: ${length}L x ${width}W x ${height}H\n`;
+            message += "\n\n---------------\nROOMS\n---------------\n";
+            $.each(job.rooms, function(index, room){
+                if(room.include){
+                    var roomResults = room.getResults(job.jobType);
+                    message += "\n- " +  room.name;
+                    message += "\n   W: " + room.width + ", L: " + room.length + ", H: " + room.height;
+                    message += "\n   (" + room.area + " sq ft, " + room.volume + " cu ft)";
+                    message += "\n   Gallons for Proklean V (Proklean Liquid): " + roomResults.gallonsRequired;
+                    if(job.jobType.jobCategory == odorJobCategory){
+                        message += "\n   Packets for Proklean G (Proklean Gas): " + roomResults.gasPackets;
+                    }
+                    message += "\n";
                 }
             });
 
-            $("#instructions").html(`<textarea style="width:100%; height:300px;">${instructions}</textarea>`);
+            message += "\n---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n";
+            message += "- Follow all safety and PPE instructions.\n- Tear open foil pouch, activate in water for 1 hour.\n- Apply liquid per room instructions.\n";
+
+            if(job.jobType.name == "Deodorization"){
+                message += "\n------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n";
+                message += "- Follow all safety instructions for gas deployment.\n- Place activated pouches in water, allow gas to work 4-6 hours.\n- Ventilate for 1 hour before re-entry.\n";
+            }
+
+            message += "\n---------------\nGlossary\n---------------\n";
+            message += "- Batch: 5 gallons of Proklean V (Liquid)\n";
+            message += "- Packets: Foil packets with inner white pouches\n";
+            message += "- Pouch(es): Mixture that creates liquid or gas ClO2\n";
+            message += "- Proklean V (Liquid) and Proklean G (Gas) - our products\n";
+            message += "- Job Type - Disinfection or Deodorization\n";
+
+            return message;
+        }
+
+        $("#getInstructions").click(function() {
+            if(!$(this).hasClass("activate")) return;
+
+            const job = new Job($("#calculator"));
+            const instructions = createEmailForJob(job);
+
+            $("#instructions").html(`<textarea style="width:100%; height:400px;">${instructions}</textarea>`);
             $("#myModal").show();
         });
+
     }
 
     const Modal = function() {
