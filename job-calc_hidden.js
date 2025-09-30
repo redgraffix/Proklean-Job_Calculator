@@ -196,7 +196,6 @@ jQuery(document).ready(function($){
         };
 
         // --- Initial setup ---
-        // populate dropdown
         const $jobTypesDropdown = $("#jobTypes");
         $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
         $.each(jobTypes, function(i, jt){
@@ -218,6 +217,27 @@ jQuery(document).ready(function($){
             $("#getInstructions").toggleClass("activate", $(this).val() !== "");
         });
 
+        // --- Reset button ---
+        $(document).on("click", ".resetButton", function(e) {
+            e.preventDefault();
+            $("#jobTypes").val("");
+            $("#roomList").empty();
+            createRoom();
+            $("#roomCount #answer").text("0");
+            $("#sizes #squareFeet #answer").text("0");
+            $("#sizes #cubicFeet #answer").text("0");
+            $("#calculations #gallonsRequired #answer").text("0");
+            $("#calculations #gallonsToPrepare #answer").text("0");
+            $("#calculations #liquidPacketsToUse #answer").text("0");
+            $("#calculations #gasPacketsToUse #answer").text("0");
+            $("#instructions").empty();
+            $("#myModal").hide();
+            $("#getInstructions").removeClass("activate");
+            recalcAndReset();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+
+        // --- Instructions ---
         function createEmailForJob(job){
             var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply Proklean. See EPA Labels for full directions and precautions.\n\n";
             message += "This is what you will need to finish this job:";
@@ -258,6 +278,22 @@ jQuery(document).ready(function($){
             $("#myModal").show();
         });
 
+        // --- Modern Clipboard for Copy (silent with highlight) ---
+        $(document).on("click", "#copybutton", function() {
+            const $textarea = $("#instructions textarea");
+            const text = $textarea.val();
+            if (!text) return;
+
+            navigator.clipboard.writeText(text).then(function() {
+                $textarea.css("background-color", "#d4edda"); // light green
+                setTimeout(() => $textarea.css("background-color", ""), 800);
+            }, function(err) {
+                console.error("Failed to copy instructions: ", err);
+                $textarea.css("background-color", "#f8d7da"); // light red for error
+                setTimeout(() => $textarea.css("background-color", ""), 1200);
+            });
+        });
+
     }
 
     const Modal = function() {
@@ -274,7 +310,7 @@ jQuery(document).ready(function($){
         });
     }
 
-    // Initialize
+    // Initialize everything
     CalcController();
     Modal();
 
