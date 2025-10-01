@@ -24,29 +24,28 @@ function jc_display_calculator() {
     ob_start(); ?>
     <div id="calculator">
         <div class="row calc-row bg-white">
-            <div class="col-3 col-tablet-6 col-mobile-12">
+            <div class="col-4 col-tablet-6 col-mobile-12">
                 <div>
-                    <div id="jobTypesContainer">
-                        <h3>Job Type</h3>
-                        <div style="position: relative;">
+                    <div id="jobTypesContainer">                    
+                        <div style="position: relative; width:100%;">
                             <select class="box" id="jobTypes"></select>
-                            <div class="arrow down"><span></span><span></span></div>
+                            <div class="arrow down">▼</div>
                         </div>
                     </div>
                     <div id="leftcol">
                         <div id="addNewRoomContainer" class="box blue">
                             <input type="button" id="addNewRoom" value="Add Room" />
-                            <div class="arrow add"><span></span><span></span></div>
+                            <div class="arrow add">+</div>
                         </div>
                         <div>
                             <div style="position: relative;">
                                 <input class="box blue" type="button" id="getInstructions" value="Get Instructions" />
-                                <div class="arrow right"><span></span><span></span></div>
+                                <div class="arrow right">→</div>
                             </div>
                         </div>
                         <div style="position: relative;">
                             <a style="display: block;" class="resetButton box blue" href="#">Reset Form</a>
-                            <div class="arrow reset"><span></span><span></span></div>
+                            <div class="arrow reset">↺</div>
                         </div>
 
                         <div id="projectResults" class="box">
@@ -68,16 +67,19 @@ function jc_display_calculator() {
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-tablet-6 col-mobile-12">
+            <div class="col-5 col-tablet-6 col-mobile-12">
                 <div id="roomList">&nbsp;</div>
             </div>
             <div class="col-3 col-tablet-6 col-mobile-12">
                 <div id="disinfection-labels" style="display: none;">
-                    <img src="https://content.prokuresolutions.com/wp-content/uploads/2019/04/PKV_Front-Foil-Mockup_FINAL_DR-.84oz.jpg" />
+                    <img src="https://prokleanservices.com/wp-content/uploads/2025/10/PK-restore-l-Fornt-cover.jpg" />
                 </div>
                 <div id="deodorization-labels" style="display: none;">
-                    <img src="https://content.prokuresolutions.com/wp-content/uploads/2019/04/PKV_Front-Foil-Mockup_FINAL_DR-4.2oz.jpg" style="margin-bottom: 15px;" />
-                    <img src="https://content.prokuresolutions.com/wp-content/uploads/2019/04/PKG_Front-Foil-Mockup_FINAL_DR-25g.jpg" />
+                    <img src="https://prokleanservices.com/wp-content/uploads/2024/08/ProKlean-Restore-DL-5gal-showcase-photo.jpg" style="margin-bottom: 15px;" />
+                    <img src="https://prokleanservices.com/wp-content/uploads/2024/06/ProKlean-DFG-Packet-Photo-2.jpg" />
+                </div>
+                <div id="cleanair-labels" style="display: none;">
+                    <img src="https://prokleanservices.com/wp-content/uploads/2025/09/prokleanFG-pack-front.jpg" />
                 </div>
             </div>
         </div>
@@ -86,8 +88,8 @@ function jc_display_calculator() {
             <div class="content">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <span class="close"><p>&times;</p></span>
-                        <h2>ProKure Instructions</h2>
+                        <span class="close">✖</span>
+                        <h2>ProKlean Instructions</h2>
                     </div>
                     <div class="modal-body" id="instructions">&nbsp;</div>
                     <div class="modal-footer">
