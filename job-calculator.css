@@ -121,7 +121,6 @@ body {
 #calculator #addNewRoomContainer, #calculator #jobTypesContainer, #calculator #getInstructions, #calculator a.resetButton {
     cursor: pointer;
     position: relative;
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -142,16 +141,28 @@ body {
 }
 #calculator #addNewRoomContainer, #calculator #getInstructions, #calculator a.resetButton { width: 100%; }
 
+/* === Get Instructions Disabled/Active === */
+#getInstructions {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+#getInstructions.activate {
+    opacity: 1;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
 /* === Arrows & Icons === */
 .arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 16px;
+    font-size: 25px;
     pointer-events: none;
     transition: transform 0.2s ease, color 0.2s ease;
 }
-.arrow.down { right: 15px; color: #00b8de; }
+.arrow.down { right: 15px; color: #00b8de;padding-bottom:10px; }
 .arrow.down:hover { transform: translateY(-50%) scale(1.2); color: #007fa3; }
 .arrow.add, .arrow.reset, .arrow.right { right: 15px; color: white; }
 .arrow.add:hover, .arrow.reset:hover, .arrow.right:hover { transform: translateY(-50%) scale(1.2); color: #d0f0ff; }
