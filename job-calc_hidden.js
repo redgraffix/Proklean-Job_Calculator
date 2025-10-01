@@ -263,44 +263,73 @@ jQuery(document).ready(function($){
             printWindow.print();
         });
 
+        // ===== Modular Instructions with editable comments =====
         function createEmailForJob(job){
-            var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply ProKlean.\n\n";
-            message += "This is what you will need to finish this job:";
 
-            var liquidProduct = "ProKlean Restore L";
-            var gasProduct = "ProKlean FG";
-            var SKUNumber = (job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory) ? "205-V420R" : "205-V084R";
+            var liquidProduct = "ProKlean V";
+            var gasProduct = "ProKlean G";
 
-            var batches = job.results.batchesRequired + (job.results.batchesRequired == 1 ? " batch" : " batches");
-            message += "\n- " + liquidProduct + ": " + batches + " needed ("+ job.results.gallonsToPrepare +" Gallons with "+ job.results.liquidPackets + (job.results.liquidPackets == 1 ? " packet" : " packets") +") — SKU: " + SKUNumber;
+            // ===== EDITABLE TEXT BLOCKS PER JOB TYPE =====
+            var textByJobType = {
+                "Disinfection": {
+                    // General introduction
+                    intro: `You are about to work on a ${job.jobType.name} job type. Please read and follow these directions to correctly prepare and apply ${liquidProduct}. See EPA Labels for Full Directions and Precautions.\n\nThis is what you will need to finish this job:`,
+                    liquidSKUText: `- ${liquidProduct}: ${job.results.batchesRequired} batch(es) needed (${job.results.gallonsToPrepare} Gallons with ${job.results.liquidPackets} packet(s)) — SKU: 205-V084R`,
+                    gasSKUText: ``,
+                    roomsHeader: "---------------\nROOMS\n---------------\n",
+                    liquidInstructionsHeader: "---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n",
+                    liquidInstructions: "- Follow all safety and PPE instructions.\n- Apply liquid per room instructions.\n",
+                    gasInstructionsHeader: "",
+                    gasInstructions: "",
+                    glossaryHeader: "---------------\nGlossary\n---------------\n",
+                    glossary: "- Batch: 5 gallons of ProKlean V (Liquid)\n- Packets - Foil Packets that contain the inner white pouch(es)\n- Pouch(es) - Contain the mixture that when exposed to water creates either liquid or gas ClO2\n- ProKlean V (Liquid) - our liquid product.\n- ProKlean G (Gas) - our gas product\n- Job Type - Disinfection"
+                },
+                "Deodorization": {
+                    intro: `You are about to work on a ${job.jobType.name} job type. Please read and follow these directions to correctly prepare and apply ${liquidProduct}. See EPA Labels for Full Directions and Precautions.\n\nThis is what you will need to finish this job:`,
+                    liquidSKUText: `- ${liquidProduct}: ${job.results.batchesRequired} batch(es) needed (${job.results.gallonsToPrepare} Gallons with ${job.results.liquidPackets} packet(s)) — SKU: 205-V420R`,
+                    gasSKUText: `- ${gasProduct}: ${job.results.gasPackets} packet(s) — SKU: 205-GF025RNC`,
+                    roomsHeader: "---------------\nROOMS\n---------------\n",
+                    liquidInstructionsHeader: "---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n",
+                    liquidInstructions: "- Follow all safety and PPE instructions.\n- Apply liquid per room instructions.\n",
+                    gasInstructionsHeader: "------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n",
+                    gasInstructions: "- Follow all gas safety instructions and ventilation guidance.\n",
+                    glossaryHeader: "---------------\nGlossary\n---------------\n",
+                    glossary: "- Batch: 5 gallons of ProKlean V (Liquid)\n- Packets - Foil Packets that contain the inner white pouch(es)\n- Pouch(es) - Contain the mixture that when exposed to water creates either liquid or gas ClO2\n- ProKlean V (Liquid) - our liquid product.\n- ProKlean G (Gas) - our gas product\n- Job Type - Deodorization"
+                },
+                "Clean The Air You Breath": {
+                    intro: `You are about to work on a ${job.jobType.name} job type. Please read and follow these directions to correctly prepare and apply ${liquidProduct}. See EPA Labels for Full Directions and Precautions.\n\nThis is what you will need to finish this job:`,
+                    liquidSKUText: `- ${liquidProduct}: ${job.results.batchesRequired} batch(es) needed (${job.results.gallonsToPrepare} Gallons with ${job.results.liquidPackets} packet(s)) — SKU: 205-V084R`,
+                    gasSKUText: `- ${gasProduct}: ${job.results.gasPackets} packet(s) — SKU: TBD`,
+                    roomsHeader: "---------------\nROOMS\n---------------\n",
+                    liquidInstructionsHeader: "---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n",
+                    liquidInstructions: "- Follow all safety and PPE instructions.\n- Apply liquid per room instructions.\n",
+                    gasInstructionsHeader: "------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n",
+                    gasInstructions: "- Follow all gas safety instructions and ventilation guidance.\n",
+                    glossaryHeader: "---------------\nGlossary\n---------------\n",
+                    glossary: "- Batch: 5 gallons of ProKlean V (Liquid)\n- Packets - Foil Packets that contain the inner white pouch(es)\n- Pouch(es) - Contain the mixture that when exposed to water creates either liquid or gas ClO2\n- ProKlean V (Liquid) - our liquid product.\n- ProKlean G (Gas) - our gas product\n- Job Type - Air"
+                }
+            };
 
-            if(job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory){
-                var packets = job.results.gasPackets + (job.results.gasPackets == 1 ? " packet" : " packets");
-                message += "\n- " + gasProduct + ": " + packets + " — SKU: TBD";
-            }
+            const text = textByJobType[job.jobType.name] || textByJobType["Disinfection"];
+            var message = text.intro + "\n" + text.liquidSKUText;
+            if(text.gasSKUText) message += "\n" + text.gasSKUText;
+            message += "\n" + text.roomsHeader;
 
-            message += "\n\n---------------\nROOMS\n---------------\n";
             $.each(job.rooms, function(index, room){
                 if(room.include){
                     var roomResults = room.getResults(job.jobType);
-                    message += "\n- " +  room.name;
+                    message += "\n- " + room.name;
                     message += "\n   W: " + room.width + ", L: " + room.length + ", H: " + room.height;
                     message += "\n   (" + room.area + " sq ft, " + room.volume + " cu ft)";
                     message += "\n   Gallons for " + liquidProduct + ": " + roomResults.gallonsRequired;
-                    if(job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory){
-                        message += "\n   Packets for " + gasProduct + ": " + roomResults.gasPackets;
-                    }
+                    if(job.jobType.jobCategory.name === "Odor" || job.jobType.jobCategory.name === "Air") message += "\n   Packets for " + gasProduct + ": " + roomResults.gasPackets;
                     message += "\n";
                 }
             });
 
-            message += "\n---------------------------\n" + liquidProduct.toUpperCase() + " (LIQUID) APPLICATION\n---------------------------\n";
-            message += "- Follow all safety and PPE instructions.\n- Apply liquid per room instructions.\n";
-
-            if(job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory){
-                message += "\n------------------------\n" + gasProduct.toUpperCase() + " (GAS) APPLICATION\n------------------------\n";
-                message += "- Follow all safety instructions for gas deployment.\n- Ventilate for 1 hour before re-entry.\n";
-            }
+            message += "\n" + text.liquidInstructionsHeader + text.liquidInstructions;
+            if(text.gasInstructionsHeader) message += "\n" + text.gasInstructionsHeader + text.gasInstructions;
+            message += "\n" + text.glossaryHeader + text.glossary;
 
             return message;
         }
