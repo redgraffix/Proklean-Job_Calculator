@@ -1,525 +1,253 @@
+/* === Global Styles === */
 body {
-	font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
+/* === Columns & Grid === */
 .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-	position: relative;
-	min-height: 1px;
-	float: left;
-	padding: 0;
+    position: relative;
+    min-height: 1px;
+    float: left;
+    padding: 0;
 }
 @media screen and (max-width: 650px) {
-	.col:not(:last-of-type), .col-1:not(:last-of-type), .col-2:not(:last-of-type), .col-3:not(:last-of-type), .col-4:not(:last-of-type), .col-5:not(:last-of-type), .col-6:not(:last-of-type), .col-7:not(:last-of-type), .col-8:not(:last-of-type), .col-9:not(:last-of-type), .col-10:not(:last-of-type), .col-11:not(:last-of-type), .col-12:not(:last-of-type) {
-		margin-bottom: 20px;
-   }
-	.col .col-mobile-12, .col-1 .col-mobile-12, .col-2 .col-mobile-12, .col-3 .col-mobile-12, .col-4 .col-mobile-12, .col-5 .col-mobile-12, .col-6 .col-mobile-12, .col-7 .col-mobile-12, .col-8 .col-mobile-12, .col-9 .col-mobile-12, .col-10 .col-mobile-12, .col-11 .col-mobile-12, .col-12 .col-mobile-12 {
-		padding-left: 0 !important;
-   }
+    .col:not(:last-of-type), .col-1:not(:last-of-type), .col-2:not(:last-of-type), .col-3:not(:last-of-type),
+    .col-4:not(:last-of-type), .col-5:not(:last-of-type), .col-6:not(:last-of-type), .col-7:not(:last-of-type),
+    .col-8:not(:last-of-type), .col-9:not(:last-of-type), .col-10:not(:last-of-type), .col-11:not(:last-of-type),
+    .col-12:not(:last-of-type) {
+        margin-bottom: 20px;
+    }
+    .col .col-mobile-12, .col-1 .col-mobile-12, .col-2 .col-mobile-12, .col-3 .col-mobile-12,
+    .col-4 .col-mobile-12, .col-5 .col-mobile-12, .col-6 .col-mobile-12, .col-7 .col-mobile-12,
+    .col-8 .col-mobile-12, .col-9 .col-mobile-12, .col-10 .col-mobile-12, .col-11 .col-mobile-12,
+    .col-12 .col-mobile-12 {
+        padding-left: 0 !important;
+    }
 }
-.col-1 {
-	width: 8.3333333333%;
-}
-.col-2 {
-	width: 16.6666666667%;
-}
-.col-3 {
-	width: 25%;
-}
-.col-4 {
-	width: 33.3333333333%;
-}
-.col-5 {
-	width: 41.6666666667%;
-}
-.col-6 {
-	width: 50%;
-}
-.col-7 {
-	width: 58.3333333333%;
-}
-.col-8 {
-	width: 66.6666666667%;
-}
-.col-9 {
-	width: 75%;
-}
-.col-10 {
-	width: 83.3333333333%;
-}
-.col-11 {
-	width: 91.6666666667%;
-}
-.col-12 {
-	width: 100%;
-}
-@media screen and (max-width: 1000px) {
-	.col-tablet-1 {
-		width: 8.3333333333%;
-		padding: 0;
-   }
-	.col-tablet-2 {
-		width: 16.6666666667%;
-		padding: 0;
-   }
-	.col-tablet-3 {
-		width: 25%;
-		padding: 0;
-   }
-	.col-tablet-4 {
-		width: 33.3333333333%;
-		padding: 0;
-   }
-	.col-tablet-5 {
-		width: 41.6666666667%;
-		padding: 0;
-   }
-	.col-tablet-6 {
-		width: 50%;
-		padding: 0;
-   }
-	.col-tablet-7 {
-		width: 58.3333333333%;
-		padding: 0;
-   }
-	.col-tablet-8 {
-		width: 66.6666666667%;
-		padding: 0;
-   }
-	.col-tablet-9 {
-		width: 75%;
-		padding: 0;
-   }
-	.col-tablet-10 {
-		width: 83.3333333333%;
-		padding: 0;
-   }
-	.col-tablet-11 {
-		width: 91.6666666667%;
-		padding: 0;
-   }
-	.col-tablet-12 {
-		width: 100%;
-		padding: 0;
-   }
-}
-@media screen and (max-width: 650px) {
-	.col-mobile-1 {
-		width: 8.3333333333%;
-   }
-	.col-mobile-2 {
-		width: 16.6666666667%;
-   }
-	.col-mobile-3 {
-		width: 25%;
-   }
-	.col-mobile-4 {
-		width: 33.3333333333%;
-   }
-	.col-mobile-5 {
-		width: 41.6666666667%;
-   }
-	.col-mobile-6 {
-		width: 50%;
-   }
-	.col-mobile-7 {
-		width: 58.3333333333%;
-   }
-	.col-mobile-8 {
-		width: 66.6666666667%;
-   }
-	.col-mobile-9 {
-		width: 75%;
-   }
-	.col-mobile-10 {
-		width: 83.3333333333%;
-   }
-	.col-mobile-11 {
-		width: 91.6666666667%;
-   }
-	.col-mobile-12 {
-		width: 100%;
-   }
-}
+.col-1 { width: 8.3333333333%; } .col-2 { width: 16.6666666667%; } .col-3 { width: 25%; }
+.col-4 { width: 33.3333333333%; } .col-5 { width: 41.6666666667%; } .col-6 { width: 50%; }
+.col-7 { width: 58.3333333333%; } .col-8 { width: 66.6666666667%; } .col-9 { width: 75%; }
+.col-10 { width: 83.3333333333%; } .col-11 { width: 91.6666666667%; } .col-12 { width: 100%; }
+
+/* === Rows === */
 .row {
-	position: relative;
-	width: 100%;
-	max-width: 100vw;
-	display: flex;
-	flex-wrap: wrap;
-	z-index: 10;
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 10;
 }
 .row:after {
-	content: "";
-	display: table;
-	clear: both;
-	table-layout: fixed;
+    content: "";
+    display: table;
+    clear: both;
+    table-layout: fixed;
 }
 @media screen and (max-width: 650px) {
-	.row {
-		padding: 40px 20px;
-   }
-}
-.row.double-spacing {
-	padding-top: 20vh;
-	padding-bottom: 20vh;
-}
-@media screen and (max-width: 650px) {
-	.row.double-spacing {
-		padding: 40px 20px;
-   }
-}
-.row.no-side-padding {
-	padding-left: 0;
-	padding-right: 0;
-}
-.row.no-padding {
-	padding: 0;
-}
-.row.no-padding-sides {
-	padding-left: 0;
-	padding-right: 0;
-}
-.row.no-padding-top {
-	padding-top: 0;
-}
-.row.no-padding-right {
-	padding-right: 0;
-}
-.row.no-padding-bottom {
-	padding-bottom: 0;
-}
-.row.no-padding-left {
-	padding-left: 0;
-}
-.row.no-top-padding {
-	padding-top: 0;
-}
-.row.no-bottom-padding {
-	padding-bottom: 0;
-}
-@media screen and (max-width: 650px) {
-	.row.no-padding-mobile-b-t {
-		padding-bottom: 0;
-		padding-top: 0;
-   }
-}
-@media screen and (max-width: 650px) {
-	.row > .row {
-		padding-bottom: 0;
-   }
+    .row { padding: 40px 20px; }
 }
 
+/* === Modal === */
 #myModal {
-	 position: fixed;
-	 width: 100vw;
-	 height: 100vh;
-	 background: rgba(0, 0, 0, .5);
-	 z-index: 1000;
-	 top: 0;
-	 left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .5);
+    z-index: 1000;
+    top: 0;
+    left: 0;
 }
- #myModal .content {
-	 position: absolute;
-	 top: 50%;
-	 left: 50%;
-	 transform: translate(-50%, -50%);
-	 padding: 0px 40px;
-	 background: white;
+#myModal .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0px 40px;
+    background: white;
 }
- @media screen and (max-width: 650px) {
-	 #myModal .content {
-		 width: calc(100% - 40px);
-	}
+@media screen and (max-width: 650px) {
+    #myModal .content { width: calc(100% - 40px); }
 }
- #myModal h2 {
-	 color: #00b8de;
+#myModal h2 { color: #00b8de; }
+#myModal .close {
+	background-color: #757575;
+    padding: 1px 10px;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    box-shadow: 2px 2px 3px #757575;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
- #myModal .close {
-	 top: -17px;
-	 right: 20px;
-	 opacity: 0.5;
-	 cursor: pointer;
-	 position: absolute;
+#myModal .close:hover { 
+    background-color: #CCC;
 }
- #myModal .close p {
-	 line-height: 1;
-	 position: relative;
-	 top: 0;
-	 font-size: 40px;
-	 transform: rotate(0);
-	 transform-origin: center 54%;
-	 transition: transform 0.2s ease-out;
+#myModal .modal-header {
+    margin-bottom: 20px;
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    background: #00b8de;
 }
- #myModal .close:hover p {
-	 transform: rotate(180deg);
+#myModal .modal-header h2 {
+    padding: 10px 40px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
 }
- #myModal .modal-header {
-	 margin-bottom: 20px;
-	 width: calc(100% + 80px);
-	 margin-left: -40px;
-	 background: #00b8de;
+#myModal .modal-footer {
+    color: white;
+    padding: 10px 40px;
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    margin-top: 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
 }
- #myModal .modal-header h2 {
-	 padding: 10px 40px;
-	 color: white;
-	 box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+#myModal .modal-footer input { 
+	cursor: pointer;
+    background: #00b8de;
+    color: white;
+    border-radius: 0; 
 }
- #myModal .modal-footer {
-	 color: white;
-	 padding: 10px 40px;
-	 width: calc(100% + 80px);
-	 margin-left: -40px;
-	 margin-top: 20px;
-	 box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
-}
- #myModal .modal-footer h3 {
-	 background: #00b8de;
-	 max-width: 250px;
-	 padding: 10px 20px;
-	 font-size: 20px;
-	 color: white;
-	 text-align: center;
-	 cursor: pointer;
-}
- #myModal .modal-footer input {
-	 background: none;
-}
- @media screen and (max-width: 650px) {
-	 .calc-container {
-		 padding-left: 0;
-		 padding-right: 0;
-	}
-}
- #calculator {
-	 width: 100%;
-}
- #calculator #addNewRoomContainer, #calculator #jobTypes {
-	 cursor: pointer;
-	 position: relative;
-}
-#calculator #addNewRoomContainer, #calculator a.resetButton {
-	width: 100%;
-}
-#calculator #addNewRoom {
-	-webkit-appearance: none;
-	border: 0px;
-}
- #calculator #jobTypesContainer {
-	 position: relative;
-}
- #calculator #getInstructions {
-	 pointer-events: none;
-	 opacity: 0.2;
-}
- #calculator #getInstructions.activate {
-	 pointer-events: initial;
-	 opacity: 1;
-}
- #calculator .calc-row {
-	 padding: 0px;
-}
- #calculator h3 {
-	 color: #00b8de;
-}
- #calculator select {
-	 margin: 20px 0;
-}
- #calculator .right-col {
-	 padding-left: 15px;
-}
- #calculator #recalculateButton {
-	 margin: 20px 0 0 !important;
-	 padding: 10px 20px;
-	 color: white !important;
-	 font-weight: 500 !important;
-	 width: 80%;
-}
- #calculator .box {
- 	 margin: 0 0 15px 0;
-	 box-shadow: 3px 4px 46px -12px rgba(0, 0, 0, 0.55);
-	 width: 100%;
-	 padding: 10px;
-	 text-align: left;
-	 color: #00b8de;
-	 border: solid 1px #e5e5e5;
-	 border-radius: 0;
-	 -webkit-appearance: none;
-	 font-weight: 500;
-	 transition: background 0.3s ease-out;
-}
- #calculator .box:hover {
-	 background: #d8d8d8;
-}
- #calculator .box.blue {
-	 background: #00b8de;
-	 color: white;
-	 margin-bottom: 20px;
-}
- #calculator .box.blue input {
-	 background: none;
-}
- #calculator .box.blue:hover {
-	 background: #00a3c5;
-}
- #calculator #projectResults {
-	 border: none;
-	 background: #def9ff;
-	 color: #1a1718;
-	 line-height: 1.5;
-	 width: 100%;
-}
- #calculator #projectResults > div {
-	 font-weight: normal;
-	 color: #1a1718;
-}
- #calculator #projectResults hr {
-	 margin: 5px 0;
-	 border-bottom: solid 1px white;
-}
- #calculator #projectResults .box {
-	 text-align: center;
-	 border: none;
-	 box-shadow: none;
-	 cursor: pointer;
-}
- #calculator .room {
-	 display: inline-block;
-	 min-width: 260px;
-	 box-shadow: 3px 4px 46px -12px rgba(0, 0, 0, 0.55);
-	 padding: 10px;
-	 margin: 0 0 15px 0;
-}
- #calculator .room > div:not(:last-of-type) {
-	 margin-bottom: 10px;
-}
- #calculator .room > div {
-	 display: flex;
-	 align-items: center;
-}
- #calculator .room > div input {
-	 display: block;
-	 margin-left: 20px;
-	 width: 70%;
-	 border: solid 1px #e5e5e5;
-	 padding: 5px 10px;
-}
- #calculator .room > div:first-of-type {
-	 justify-content: space-between;
-}
- #calculator .room > div:first-of-type span, #calculator .room > div:first-of-type input {
-	 width: auto;
-}
- #calculator .room > div:first-of-type span {
-	 font-weight: 500;
-	 color: #00b8de;
-}
- #calculator .room > div:first-of-type input {
-	 -webkit-appearance: none;
-	 padding: 10px;
-	 position: relative;
-}
- #calculator .room > div:first-of-type input:checked {
-	 background: #00b8de;
-}
- #calculator .room > div:first-of-type input:checked:after {
-	 content: "\2713";
-	 position: absolute;
-	 left: 5px;
-	 top: -2px;
-	 color: white;
-}
- #calculator .room span {
-	 display: inline-block;
-}
- #calculator .room p {
-	 font-size: 16px;
-	 font-weight: 500;
-	 width: 30%;
-}
- #calculator .room div.results {
-	 display: block;
-	 background: #e3faff;
-	 padding: 10px;
-	 font-weight: normal;
-	 color: #1a1718;
-	 line-height: 1.5;
-     text-align:left;
-}
- #calculator .room div.results strong {
-	 margin-left: 5px;
-}
-#roomList{
-	text-align:center;
-}
- @media screen and (max-width: 650px) {
-	 #calculator .right-col {
-		 padding-left: 0;
-	}
-	 #calculator .calc-row {
-		 padding-left: 0;
-		 padding-right: 0;
-	}
-	 #calculator .room {
-		 width: 100%;
-		 min-width: initial;
-		 margin: 0;
-		 padding: 20px;
-	}
-}
- .arrow {
-	 position: absolute;
-	 transform-origin: center center;
-	 pointer-events: none;
-	 right: -10px;
-	 top: 45px;
-}
- .arrow span {
-	 position: relative;
-	 display: inline-block;
-	 width: 20px;
-	 border-bottom: solid 3px #00b8de;
-}
- .arrow span:first-of-type {
-	top: 9px;
-    transform: rotate(45deg);
-}
- .arrow span:last-of-type {    
-	top: 22px;
-    left: -23px;
-    transform: rotate(-45deg);
-}
- .arrow.down {
-	 transform: rotate(90deg);
-	 color: #00b8de;
-}
- .arrow.right {
-	 top: -3px;
-	 right: -10px;
-}
- .arrow.right span {
-	 border-bottom-color: white;
-}
- .arrow.add, .arrow.reset {
-	 top: -3px;
-	 right: -10px;
-}
- .arrow.add span, .arrow.reset span {
-	 width: 25px;
-	 border-bottom-color: white;
-}
- .arrow.add span:first-of-type, .arrow.reset span:first-of-type {
-	 top: 15px;
-	 left: 5px;
-	 transform: rotate(0deg);
-}
- .arrow.add span:last-of-type, .arrow.reset span:last-of-type {
-	 top: 15px;
-	 transform: rotate(90deg);
-}
- .arrow.reset {
-	 right: -20px;
-	 top: 6px;
-	 transform: rotate(45deg);
+#printbutton{
+	float:right;
 }
 
+/* === Calculator === */
+#calculator { width: 100%; }
+#calculator #addNewRoomContainer, #calculator #jobTypesContainer, #calculator #getInstructions, #calculator a.resetButton {
+    cursor: pointer;
+    position: relative;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+#calculator #jobTypes {
+    width: 100%;
+    background-color: white;
+    color: black;
+    border: solid 1px #e5e5e5;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+#calculator #addNewRoomContainer, #calculator #getInstructions, #calculator a.resetButton { width: 100%; }
+
+/* === Arrows & Icons === */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.arrow.down { right: 15px; color: #00b8de; }
+.arrow.down:hover { transform: translateY(-50%) scale(1.2); color: #007fa3; }
+.arrow.add, .arrow.reset, .arrow.right { right: 15px; color: white; }
+.arrow.add:hover, .arrow.reset:hover, .arrow.right:hover { transform: translateY(-50%) scale(1.2); color: #d0f0ff; }
+
+/* === Boxes & Buttons === */
+#addNewRoom{ padding:0px; }
+#calculator .box {
+    margin: 0 0 15px 0;
+    box-shadow: 3px 4px 46px -12px rgba(0, 0, 0, 0.55);
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    color: #00b8de;
+    border: solid 1px #e5e5e5;
+    border-radius: 0;
+    -webkit-appearance: none;
+    font-weight: 500;
+    transition: background 0.3s ease-out;
+}
+#calculator .box:hover { background: #d8d8d8; }
+#calculator .box.blue {
+    background: #00b8de;
+    color: white;
+    margin-bottom: 20px;
+}
+#calculator .box.blue input { background: none; color: #fff; }
+#calculator .box.blue:hover { background: #00a3c5; }
+
+/* === Project Results === */
+#calculator #projectResults {
+    border: none;
+    background: #def9ff;
+    color: #1a1718;
+    line-height: 1.5;
+    width: 100%;
+}
+#calculator #projectResults > div { font-weight: normal; color: #1a1718; }
+#calculator #projectResults hr { margin: 5px 0; border-bottom: solid 1px white; }
+#calculator #projectResults .box { text-align: center; border: none; box-shadow: none; cursor: pointer; }
+
+/* === Rooms === */
+#calculator .room {
+    display: inline-block;
+    min-width: 260px;
+    box-shadow: 3px 4px 46px -12px rgba(0, 0, 0, 0.55);
+    padding: 10px;
+    margin: 0 0 15px 0;
+}
+#calculator .room > div:not(:last-of-type) { margin-bottom: 10px; }
+#calculator .room > div { display: flex; align-items: center; }
+#calculator .room > div input {
+    display: block;
+    margin-left: 20px;
+    width: 70%;
+    border: solid 1px #e5e5e5;
+    padding: 5px 10px;
+}
+#calculator .room > div:first-of-type { justify-content: space-between; }
+#calculator .room > div:first-of-type span, #calculator .room > div:first-of-type input { width: auto; }
+#calculator .room > div:first-of-type span { font-weight: 500; color: #00b8de; }
+#calculator .room > div:first-of-type input { -webkit-appearance: none; padding: 10px; position: relative; }
+#calculator .room > div:first-of-type input:checked { background: #00b8de; }
+#calculator .room > div:first-of-type input:checked:after {
+    content: "\2713";
+    position: absolute;
+    left: 5px;
+    top: -2px;
+    color: white;
+}
+#calculator .room span { display: inline-block; }
+#calculator .room p { font-size: 16px; font-weight: 500; width: 30%; }
+#calculator .room div.results {
+    display: block;
+    background: #e3faff;
+    padding: 10px;
+    font-weight: normal;
+    color: #1a1718;
+    line-height: 1.5;
+    text-align: left;
+}
+#calculator .room div.results strong { margin-left: 5px; }
+
+/* === Room List Centering === */
+#roomList { text-align: center; }
+
+/* === Responsive Adjustments === */
+@media screen and (max-width: 650px) {
+    #calculator .right-col { padding-left: 0; }
+    #calculator .calc-row { padding-left: 0; padding-right: 0; }
+    #calculator .room {
+        width: 100%;
+        min-width: initial;
+        margin: 0;
+        padding: 20px;
+    }
+}
+
+/* === Misc === */
 img, input, select { max-width: 100%; }
