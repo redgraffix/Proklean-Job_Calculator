@@ -4,7 +4,6 @@ jQuery(document).ready(function($){
 
     const CalcController = function() {
 
-        // Job Constructor
         function Job(calculatorNode){
             this.node = calculatorNode;
             this.jobType = jobTypesByName[calculatorNode.find("#jobTypes").val()];
@@ -39,7 +38,6 @@ jQuery(document).ready(function($){
 
             this.results = results;
 
-            // Totals display
             this.node.find("#roomCount #answer").text(results.rooms);
             this.node.find("#sizes #squareFeet #answer").text(results.squareFeet);
             this.node.find("#calculations #gallonsRequired #answer").text(results.gallonsRequired);
@@ -49,7 +47,6 @@ jQuery(document).ready(function($){
             this.node.find("#calculations #gasPacketsToUse #answer").text(results.gasPackets);
         }
 
-        // Room Constructor
         function Room(roomNode){
             this.node = $(roomNode);
             this.nameInput = this.node.find(".nameInput");
@@ -91,7 +88,6 @@ jQuery(document).ready(function($){
             }
         }
 
-        // Results Constructor
         function Results(){
             this.rooms = 0;
             this.squareFeet = 0;
@@ -103,7 +99,6 @@ jQuery(document).ready(function($){
             this.liquidPackets = 0;
         }
 
-        // JobCategory, JobGrade, JobType
         function JobCategory(name) { this.name = name; }
         const pathogenJobCategory = new JobCategory("Pathogen");
         const odorJobCategory = new JobCategory("Odor");
@@ -161,14 +156,14 @@ jQuery(document).ready(function($){
         const jobTypesByName = {};
         $.each(jobTypes, function() { jobTypesByName[this.name] = this; });
 
-        // Populate jobTypes dropdown
         const $jobTypesDropdown = $("#jobTypes");
         $jobTypesDropdown.empty().append("<option value=''>Select Job Type</option>");
         $.each(jobTypes, function(i, jt){
             $jobTypesDropdown.append(`<option value='${jt.name}'>${jt.name}</option>`);
         });
 
-        // Create room
+        $("#getInstructions").removeClass("activate");
+
         const createRoom = function() {
             var currentRoomNumber = $(".room").length + 1;
             var room = $("<div />").addClass("room").attr("id", "room"+currentRoomNumber);
@@ -187,7 +182,6 @@ jQuery(document).ready(function($){
             $("#roomList").append(room);
         };
 
-        // Recalculate and handle label visibility
         const recalcAndReset = function(){
             const job = new Job($("#calculator"));
             $("#calculations").show();
@@ -223,11 +217,9 @@ jQuery(document).ready(function($){
             }
         };
 
-        // Initial setup
         createRoom();
         recalcAndReset();
 
-        // Event bindings
         $(document).on('change', "#jobTypes", function(){
             $("#getInstructions").toggleClass("activate", $(this).val() !== "");
             recalcAndReset();
@@ -240,7 +232,6 @@ jQuery(document).ready(function($){
             recalcAndReset();
         });
 
-        // Reset form
         $(document).on('click', '.resetButton', function(e){
             e.preventDefault();
             $("#roomList").empty();
@@ -250,7 +241,6 @@ jQuery(document).ready(function($){
             recalcAndReset();
         });
 
-        // Instructions modal
         $("#getInstructions").click(function(){
             if(!$(this).hasClass("activate")) return;
             const job = new Job($("#calculator"));
@@ -259,7 +249,6 @@ jQuery(document).ready(function($){
             $("#myModal").show();
         });
 
-        // Copy to clipboard
         $("#copybutton").click(function(){
             const $textarea = $("#instructions textarea");
             $textarea.select();
@@ -267,7 +256,6 @@ jQuery(document).ready(function($){
             alert("Instructions copied to clipboard!");
         });
 
-        // Print instructions
         $("#printbutton").click(function(){
             const printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<pre>' + $("#instructions textarea").val() + '</pre>');
@@ -280,8 +268,7 @@ jQuery(document).ready(function($){
             message += "This is what you will need to finish this job:";
 
             var liquidProduct = "ProKlean Restore L";
-            var gasProduct = "ProKlean FG"; // Air product placeholder
-
+            var gasProduct = "ProKlean FG";
             var SKUNumber = (job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory) ? "205-V420R" : "205-V084R";
 
             var batches = job.results.batchesRequired + (job.results.batchesRequired == 1 ? " batch" : " batches");
