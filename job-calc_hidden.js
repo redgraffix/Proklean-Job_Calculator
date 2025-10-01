@@ -39,7 +39,7 @@ jQuery(document).ready(function($){
 
             this.results = results;
 
-            // Totals display remains unchanged
+            // Totals display
             this.node.find("#roomCount #answer").text(results.rooms);
             this.node.find("#sizes #squareFeet #answer").text(results.squareFeet);
             this.node.find("#calculations #gallonsRequired #answer").text(results.gallonsRequired);
@@ -66,7 +66,6 @@ jQuery(document).ready(function($){
             this.area = this.width * this.length;
             this.volume = this.area * this.height;
 
-            // Update name dynamically
             this.nameInput.on("input", function(){
                 self.name = $(this).val();
             });
@@ -108,6 +107,7 @@ jQuery(document).ready(function($){
         function JobCategory(name) { this.name = name; }
         const pathogenJobCategory = new JobCategory("Pathogen");
         const odorJobCategory = new JobCategory("Odor");
+        const airJobCategory = new JobCategory("Air");
 
         function JobGrade(name, squareFeetPerGallon, gallonsPerBatch, packetsPerBatch, cubicFeetPerPacket, hoursToAirOut){
             this.name = name;
@@ -154,7 +154,8 @@ jQuery(document).ready(function($){
 
         const jobTypes = [
             new JobType("Deodorization", odorJobCategory, standardStrength),
-            new JobType("Disinfection", pathogenJobCategory, standardStrength)
+            new JobType("Disinfection", pathogenJobCategory, standardStrength),
+            new JobType("Clean The Air You Breath", airJobCategory, standardStrength)
         ].sort((a,b) => a.name.localeCompare(b.name));
 
         const jobTypesByName = {};
@@ -186,21 +187,39 @@ jQuery(document).ready(function($){
             $("#roomList").append(room);
         };
 
+        // Recalculate and handle label visibility
         const recalcAndReset = function(){
             const job = new Job($("#calculator"));
             $("#calculations").show();
             $("#recalculateButton").hide();
 
-            if(job.jobType && job.jobType.jobCategory.name == "Odor"){
+            if(!job.jobType){ 
+                $(".odorStuff").hide();
+                $('#cubicFeet').hide();
+                $('#disinfection-labels').hide();
+                $('#deodorization-labels').hide();
+                $('#cleanair-labels').hide();
+                return;
+            }
+
+            if(job.jobType.jobCategory.name == "Odor"){
                 $(".odorStuff").show();
                 $('#cubicFeet').show();
                 $('#disinfection-labels').hide();
                 $('#deodorization-labels').show();
-            } else {
+                $('#cleanair-labels').hide();
+            } else if(job.jobType.jobCategory.name == "Pathogen"){
                 $(".odorStuff").hide();
                 $('#cubicFeet').hide();
                 $('#disinfection-labels').show();
                 $('#deodorization-labels').hide();
+                $('#cleanair-labels').hide();
+            } else if(job.jobType.jobCategory.name == "Air"){
+                $(".odorStuff").show();
+                $('#cubicFeet').show();
+                $('#disinfection-labels').hide();
+                $('#deodorization-labels').hide();
+                $('#cleanair-labels').show();
             }
         };
 
@@ -257,15 +276,20 @@ jQuery(document).ready(function($){
         });
 
         function createEmailForJob(job){
-            var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply Proklean.\n\n";
+            var message = "You are about to work on a "+ job.jobType.name +" job type. Please read and follow these directions to correctly prepare and apply ProKlean.\n\n";
             message += "This is what you will need to finish this job:";
-            var SKUNumber = job.jobType.name == "Deodorization" ? "205-V420R" : "205-V084R";
-            var batches = job.results.batchesRequired + (job.results.batchesRequired == 1 ? " batch" : " batches");
-            message += "\n- Proklean V: " + batches + " needed ("+ job.results.gallonsToPrepare +" Gallons with "+ job.results.liquidPackets + (job.results.liquidPackets == 1 ? " packet" : " packets") +") — SKU: " + SKUNumber;
 
-            if(job.jobType.name == "Deodorization"){
+            var liquidProduct = "ProKlean Restore L";
+            var gasProduct = "ProKlean FG"; // Air product placeholder
+
+            var SKUNumber = (job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory) ? "205-V420R" : "205-V084R";
+
+            var batches = job.results.batchesRequired + (job.results.batchesRequired == 1 ? " batch" : " batches");
+            message += "\n- " + liquidProduct + ": " + batches + " needed ("+ job.results.gallonsToPrepare +" Gallons with "+ job.results.liquidPackets + (job.results.liquidPackets == 1 ? " packet" : " packets") +") — SKU: " + SKUNumber;
+
+            if(job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory){
                 var packets = job.results.gasPackets + (job.results.gasPackets == 1 ? " packet" : " packets");
-                message += "\n- Proklean G: " + packets + " — SKU: 205-GF025RNC";
+                message += "\n- " + gasProduct + ": " + packets + " — SKU: TBD";
             }
 
             message += "\n\n---------------\nROOMS\n---------------\n";
@@ -275,19 +299,19 @@ jQuery(document).ready(function($){
                     message += "\n- " +  room.name;
                     message += "\n   W: " + room.width + ", L: " + room.length + ", H: " + room.height;
                     message += "\n   (" + room.area + " sq ft, " + room.volume + " cu ft)";
-                    message += "\n   Gallons for Proklean V: " + roomResults.gallonsRequired;
-                    if(job.jobType.jobCategory == odorJobCategory){
-                        message += "\n   Packets for Proklean G: " + roomResults.gasPackets;
+                    message += "\n   Gallons for " + liquidProduct + ": " + roomResults.gallonsRequired;
+                    if(job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory){
+                        message += "\n   Packets for " + gasProduct + ": " + roomResults.gasPackets;
                     }
                     message += "\n";
                 }
             });
 
-            message += "\n---------------------------\nPROKLEAN V (LIQUID) APPLICATION\n---------------------------\n";
+            message += "\n---------------------------\n" + liquidProduct.toUpperCase() + " (LIQUID) APPLICATION\n---------------------------\n";
             message += "- Follow all safety and PPE instructions.\n- Apply liquid per room instructions.\n";
 
-            if(job.jobType.name == "Deodorization"){
-                message += "\n------------------------\nPROKLEAN G (GAS) APPLICATION\n------------------------\n";
+            if(job.jobType.jobCategory == odorJobCategory || job.jobType.jobCategory == airJobCategory){
+                message += "\n------------------------\n" + gasProduct.toUpperCase() + " (GAS) APPLICATION\n------------------------\n";
                 message += "- Follow all safety instructions for gas deployment.\n- Ventilate for 1 hour before re-entry.\n";
             }
 
