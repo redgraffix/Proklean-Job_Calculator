@@ -228,41 +228,48 @@ img, input, select {
     box-sizing: border-box;
 }
 
-/* Styled checkbox (cross-browser) */
-#calculator .room > div.name-row input[type="checkbox"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+/* =========================================
+   CHECKBOX STYLING (updated)
+========================================= */
+#calculator .room > div input[type="checkbox"] {
+    -webkit-appearance: none; /* Chrome, Safari */
+    -moz-appearance: none;    /* Firefox */
     appearance: none;
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    background-color: #00b8de;
-    border: 2px solid #009ecf;
-    border-radius: 4px;
+
+    width: 28px;               /* larger size */
+    height: 28px;
+    background-color: #00b8de; /* main blue */
+    border: 2px solid #009ecf; /* border for definition */
+    border-radius: 4px;        /* slightly rounded */
     cursor: pointer;
-    position: relative;
-    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     vertical-align: middle;
+    margin: 0;
+    transition: all 0.2s ease;
 }
 
-#calculator .room > div.name-row input[type="checkbox"]:checked::after {
+/* Checkmark when checked, proportional to size */
+#calculator .room > div input[type="checkbox"]:checked::after {
     content: '';
-    position: absolute;
-    top: 2px;
-    left: 6px;
-    width: 6px;
-    height: 12px;
+    display: block;
+    width: 12px;              
+    height: 6px;              
     border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    pointer-events: none;
+    border-width: 0 0 3px 3px; 
+    transform: rotate(-45deg);
+    box-sizing: border-box;
 }
 
-#calculator .room > div.name-row input[type="checkbox"]:hover {
+/* Hover effect */
+#calculator .room > div input[type="checkbox"]:hover {
     background-color: #009ecf;
 }
 
-/* Length / Width / Height rows */
+/* =========================================
+   ROOM DIMENSIONS ALIGNMENT
+========================================= */
 #calculator .room > div {
     display: flex;
     align-items: center;
@@ -270,12 +277,21 @@ img, input, select {
     margin-bottom: 8px;
 }
 
-#calculator .room > div input[name="lengthInput"],
-#calculator .room > div input[name="widthInput"],
-#calculator .room > div input[name="heightInput"] {
-    width: 120px;
+/* Labels left-aligned with fixed width */
+#calculator .room > div p {
+    width: 60px;
+    margin: 0;
+    text-align: left;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+/* Inputs fill the remaining space */
+#calculator .room > div input[type="number"] {
+    flex: 1;
     padding: 6px 8px;
     box-sizing: border-box;
+    min-width: 80px;
 }
 
 /* =========================================
@@ -296,29 +312,52 @@ img, input, select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 0px 20px;
+    padding: 20px 20px 0px 20px;
     background: white;
     width: 92%;
     max-width: 820px;
     box-sizing: border-box;
     border-radius: 6px;
-    overflow: hidden;
+    border-radius: 0;
 }
-#myModal h2 { color: #00b8de; margin: 0; padding: 12px 0; }
+#myModal h2 { 
+	color: #fff;
+    background-color: #00b8de;
+    margin: 0;
+    padding: 12px;
+}
 #myModal .close {
     background-color: #757575;
-    padding: 4px 10px;
+    padding: 2px 9px;
     border-radius: 10px;
     border: 1px solid #fff;
     position: absolute;
-    top: -10px;
-    right: -10px;
-    font-size: 18px;
+    top: -5px;
+    right: -5px;
+    font-size: 14px;
     cursor: pointer;
     color: white;
     box-shadow: 2px 2px 3px #757575;
+    border-radius:0;
 }
-#myModal .close:hover { background-color: #5c5c5c; }
+#myModal .close:hover { 
+	background-color: #5c5c5c;
+}
+.modal-footer{
+	min-height: 80px;
+    display: flex;
+	padding: 20px 0px;
+    gap: 20px;
+}
+.modal-footer input{
+	background-color: #00b8de !important;
+    border-radius: 0 !important;
+    color: #fff !important;
+    padding: 0px 20px !important;
+}
+.modal-footer input[type="button"]:hover{
+	background: #009ecf;
+}
 
 /* =========================================
    RESPONSIVE DESIGN
@@ -326,8 +365,16 @@ img, input, select {
 @media screen and (max-width: 1024px) {
     #calculator .room { min-width: 220px; }
 }
+@media screen and (max-width: 768px) {
+    #calculator {
+    font-size:14px;
+    }
+}
 
 @media screen and (max-width: 650px) {
+	#calculator {
+    font-size:14px;
+    }
     #calculator .calc-row {
         flex-direction: column;
         gap: 12px;
