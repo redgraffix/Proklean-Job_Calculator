@@ -245,26 +245,42 @@ jQuery(document).ready(function($){
             "Deodorization": {
                 liquidProducts: [
                     {
-                        name: "ProKlean Restore DL",
+                        name: "ProKlean Restore DLPRO",
                         sku: "205-DL5R",
-                        instructions: `- Follow all safety instructions.
-- ENSURE ALL REQUIRED PPE IS WORN.
-- Pre-clean heavily soiled surfaces.
-- Spray directly onto surfaces per room instructions.
-- Allow to air dry.
-- Store unused liquid in sealed dark container.`
+                        instructions: `Preparation
+- It is a violation of Federal Law to use this product in a manner inconsistent with the labeling.  Read the entire label and use strictly in accordance with precautionary statements and use.
+-  ENSURE THAT ALL REQUIRED PPE IS WORN.
+-  Tear open the foil packet and remove the white inner pouch(es).
+-  DO NOT CUT OR OPEN THE WHITE POUCH.
+-  Place the white pouch(es) in an opaque (not clear) bottle or container filled with water based on the Job Type.
+-  Allow pouch(es) to activate in water for one hour to reach maximum strength.
+-  Transfer activated solution into applicator as needed.
+
+Application
+-  Heavily soiled surfaces must be pre-cleaned prior to treatment.
+-  Spray directly onto surfaces to be treated.
+-  No wipe, no rinse, no residue and will not harm most nonporous surfaces.
+-  Easy to use, apply to surface and allow to air dry.
+-  Pour (unused) liquid into a dark closed or sealed container in a cool, dark location.`
                     }
                 ],
                 gasProducts: [
                     {
                         name: "ProKlean Restore DFG",
                         sku: "205-DFG1000R",
-                        instructions: `- Follow all gas safety instructions.
-- ENSURE ALL REQUIRED PPE IS WORN.
-- Area must be unoccupied.
-- Open inner pouch and place in water per instructions.
-- Allow 4-6 hours for gas to work.
-- Ventilate area 1 hour before re-entry.`
+                        instructions: `-  It is a violation of Federal Law to use this product in a manner inconsistent with the labeling.  Read the entire label and use strictly in accordance with precautionary statements and use.
+-  Note: People and pets must not be present in enclosed area when ProKlean DFG (ProKlean DFG Gas) is activated.
+-  Use ProKlean DLPRO (ProKlean DLPRO Liquid) at 500ppm then follow with ProKlean DFG (ProKlean DFG Gas) for best results on deodorization jobs.
+-  ENSURE THAT ALL REQUIRED PPE IS WORN THROUGHOUT GAS DEPLOYMENT & VENTILATION.
+-  Open the silver foil packet and remove the white pouch (DO NOT OPEN WHITE POUCH).
+-  Drop white inner pouch in plastic cup filled with 1.5” of water.
+-  Place on stable level surface, elevated in central location.
+-  Allow at least 4-6 hours for the ProKlean DFG (ProKlean DFG Gas) to work.  (Not recommended for more than 24 hours).
+-  Use the enclosed caution placard to record treatment/safe re-entry time.
+-  Ventilate for one (1) hour before re-entry.  Discard in an outside refuse container.
+-  Works best in the dark.
+-  Place two feet from fabrics, leather, electronics, mirrors and uncoated metals.
+-  Use ProKlean Rhino air movers to increase circulation.`
                     }
                 ]
             },
@@ -272,13 +288,25 @@ jQuery(document).ready(function($){
                 liquidProducts: [
                     {
                         name: "ProKlean Restore L",
-                        sku: "205-L5RA1V1",
-                        instructions: `- Follow all safety instructions.
-- ENSURE ALL REQUIRED PPE IS WORN.
-- Pre-clean heavily soiled surfaces.
-- Spray directly onto surfaces per room instructions.
-- Allow to air dry.
-- Store unused liquid in sealed dark container.`
+                        sku: "205-L5R",
+                        instructions: `Preparation
+-  It is a violation of Federal Law to use this product in a manner inconsistent with the labeling.  Read the entire label and use strictly in accordance with precautionary statements and use.
+-  ENSURE THAT ALL REQUIRED PPE IS WORN.
+-  Tear open the foil packet and remove the white inner pouch(es).
+DO NOT CUT OR OPEN THE WHITE POUCH.
+-  Place the white pouch(es) in an opaque (not clear) bottle or container filled with water based on the Job Type.
+-  Allow pouch(es) to activate in water for one hour to reach maximum strength.
+-  Transfer activated solution into applicator as needed.
+
+Application
+-  Heavily soiled surfaces must be pre-cleaned prior to treatment.
+-  Spray directly onto surfaces to be treated.
+-  Spray must be used with an exposure time of 10 minutes at 100 ppm to disinfect hard, non-porous surfaces.
+-  No wipe, no rinse, no residue and will not harm most nonporous surfaces.
+-  Easy to use, apply to surface and allow to air dry.
+-  Follow EPA label when using as a deodorizer on carpets and other color-fast soft goods; always test in a hidden area for colorfastness.
+-  Pour (unused) liquid into a dark closed or sealed container in a cool, dark location.  Use stored liquid within 15 days of activation; record activation date onto the container.
+-  DISINFECTION JOB TYPES REQUIRE ONLY PROKLEAN L (PROKLEAN RESTORE L LIQUID)`
                     }
                 ],
                 gasProducts: []
@@ -289,12 +317,20 @@ jQuery(document).ready(function($){
                     {
                         name: "ProKlean Restore FG",
                         sku: "205-FG2250R",
-                        instructions: `- Follow all gas safety instructions.
-- ENSURE ALL REQUIRED PPE IS WORN.
-- Area must be unoccupied.
-- Open inner pouch and place in water per instructions.
-- Allow proper time for gas to work.
-- Ventilate area 1 hour before re-entry.`
+                        instructions: `-  It is a violation of Federal Law to use this product in a manner inconsistent with the labeling.  Read the entire label and use strictly in accordance with precautionary statements and use.
+-  Note: People and pets must not be present in enclosed area when ProKlean FG (ProKlean FG Gas) is activated.
+-  ENSURE THAT ALL REQUIRED PPE IS WORN THROUGHOUT GAS DEPLOYMENT & VENTILATION.
+-  Open the silver foil packet and remove the white pouch (DO NOT OPEN WHITE POUCH).
+-  Drop white inner pouch in plastic cup filled with 1.5” of water.
+-  Place on stable level surface in central location.
+-  Allow at least 4-6 hours for the ProKlean FG (ProKlean FG Gas) to work.  (Not recommended for more than 24 hours).
+-  Use the enclosed caution placard to record treatment/safe re-entry time.
+-  Ventilate for one (1) hour before re-entry.  Discard in an outside refuse container.
+-  Works best in the dark.
+-  Place two feet from fabrics, leather, electronics, mirrors and uncoated metals.
+-  Use the ProKlean Rhino air mover to increase circulation and on Larger Jobs.
+
+-  CLEAN THE AIR YOU BREATHE JOB TYPES REQUIRE ONLY PROKLEAN FG (PROKLEAN RESTORE FG Gas)`
                     }
                 ]
             }
@@ -333,12 +369,12 @@ jQuery(document).ready(function($){
             });
 
             liquidProducts.forEach(p => {
-                message += `\n---------------------------\n${p.name.toUpperCase()} (LIQUID) APPLICATION\n---------------------------\n`;
+                message += `\n---------------------------\n${p.name.toUpperCase()}\n---------------------------\n`;
                 message += p.instructions + "\n";
             });
 
             gasProducts.forEach(p => {
-                message += `\n---------------------------\n${p.name.toUpperCase()} (GAS) APPLICATION\n---------------------------\n`;
+                message += `\n---------------------------\n${p.name.toUpperCase()}\n---------------------------\n`;
                 message += p.instructions + "\n";
             });
 
