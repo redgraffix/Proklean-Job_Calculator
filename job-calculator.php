@@ -5,12 +5,14 @@
  * Description: Job calculator for disinfection/deodorization projects.
  * Version:     1.0
  * Author:      Jason Rodgers
- * Author URI:  https://redgraffix.com
+ * Author URI: https://redgraffix.com
  */
 
 if (!defined('ABSPATH')) exit;
 
-// Enqueue JS and CSS
+// ==========================================
+// ENQUEUE JS & CSS
+// ==========================================
 function jc_enqueue_scripts() {
     $plugin_url = plugin_dir_url(__FILE__);
     wp_enqueue_style('jc-styles', $plugin_url . 'styles.css');
@@ -19,38 +21,51 @@ function jc_enqueue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'jc_enqueue_scripts');
 
-// Shortcode to display calculator
+// ==========================================
+// SHORTCODE OUTPUT
+// ==========================================
 function jc_display_calculator() {
     ob_start(); ?>
-    <div id="calculator" class="container-fluid">
+
+    <div id="calculator">
+
+        <!-- ===============================
+             ROW CONTAINER
+        ================================ -->
         <div class="row calc-row bg-white">
 
-            <!-- Left Column: Job Types & Buttons -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div id="jobTypesContainer" class="mb-3">
-                    <div class="position-relative w-100">
-                        <select class="form-select box" id="jobTypes"></select>
+            <!-- ===============================
+                 LEFT COLUMN (Controls + Totals)
+            ================================ -->
+            <div class="col-lg-4 col-md-6 col-12">
+                <div id="leftcol">
+
+                    <!-- Job Types Dropdown -->
+                    <div id="jobTypesContainer" class="box blue">
+                        <select id="jobTypes"></select>
                         <div class="arrow down">▼</div>
                     </div>
-                </div>
 
-                <div id="leftcol">
-                    <div id="addNewRoomContainer" class="box blue mb-3 d-flex justify-content-between align-items-center">
-                        <input type="button" id="addNewRoom" value="Add Room" class="btn btn-link text-white p-0" />
+                    <!-- Add Room Button -->
+                    <div id="addNewRoomContainer" class="box blue">
+                        <input type="button" id="addNewRoom" value="Add Room" />
                         <div class="arrow add">+</div>
                     </div>
 
-                    <div class="mb-3 position-relative">
-                        <input class="box blue w-100" type="button" id="getInstructions" value="Get Instructions" />
+                    <!-- Get Instructions Button -->
+                    <div id="getInstructionsContainer" class="box blue">
+                        <input type="button" id="getInstructions" value="Get Instructions" />
                         <div class="arrow right">→</div>
                     </div>
 
-                    <div class="mb-3 position-relative">
-                        <a class="resetButton box blue d-block text-center" href="#">Reset Form</a>
+                    <!-- Reset Form Button -->
+                    <div id="resetContainer" class="box blue">
+                        <a class="resetButton" href="#">Reset Form</a>
                         <div class="arrow reset">↺</div>
                     </div>
 
-                    <div id="projectResults" class="box p-3">
+                    <!-- Project Results (Totals) -->
+                    <div id="projectResults">
                         <p class="roomTotals">Totals</p>
                         <hr />
                         <div id="roomCount">Rooms: <strong><span id="answer"></span></strong></div>
@@ -64,49 +79,67 @@ function jc_display_calculator() {
                             <div id="gallonsToPrepare">Gallons To Prepare: <strong><span id="answer"></span></strong></div>
                             <div id="liquidPacketsToUse">Liquid Packets Needed: <strong><span id="answer"></span></strong></div>
                         </div>
-                        <div id="recalculateButton" class="box blue mt-3 text-center">Recalculate</div>
                     </div>
+
                 </div>
             </div>
 
-            <!-- Middle Column: Room List -->
-            <div class="col-12 col-md-6 col-lg-5">
-                <div id="roomList" class="text-center">&nbsp;</div>
+            <!-- ===============================
+                 MIDDLE COLUMN (Rooms List)
+            ================================ -->
+            <div class="col-lg-4 col-md-6 col-12">
+                <div id="roomList"></div>
             </div>
 
-            <!-- Right Column: Labels -->
-            <div class="col-12 col-md-6 col-lg-3">
-                <div id="disinfection-labels" class="mb-3" style="display: none;">
-                    <img src="https://prokleanservices.com/wp-content/uploads/2025/10/PK-restore-l-Fornt-cover.jpg" class="img-fluid" />
+            <!-- ===============================
+                 RIGHT COLUMN (Labels / Images)
+            ================================ -->
+            <div class="col-lg-4 col-md-6 col-12">
+                <!-- Disinfection Labels -->
+                <div id="disinfection-labels" style="display: none;">
+                    <img src="https://prokleanservices.com/wp-content/uploads/2025/10/PK-restore-l-Fornt-cover.jpg" />
                 </div>
-                <div id="deodorization-labels" class="mb-3" style="display: none;">
-                    <img src="https://prokleanservices.com/wp-content/uploads/2024/08/ProKlean-Restore-DL-5gal-showcase-photo.jpg" class="img-fluid mb-2" />
-                    <img src="https://prokleanservices.com/wp-content/uploads/2024/06/ProKlean-DFG-Packet-Photo-2.jpg" class="img-fluid" />
+
+                <!-- Deodorization Labels -->
+                <div id="deodorization-labels" style="display: none;">
+                    <img src="https://prokleanservices.com/wp-content/uploads/2024/08/ProKlean-Restore-DL-5gal-showcase-photo.jpg" style="margin-bottom: 15px;" />
+                    <img src="https://prokleanservices.com/wp-content/uploads/2024/06/ProKlean-DFG-Packet-Photo-2.jpg" />
                 </div>
+
+                <!-- Clean Air Labels -->
                 <div id="cleanair-labels" style="display: none;">
-                    <img src="https://prokleanservices.com/wp-content/uploads/2025/09/prokleanFG-pack-front.jpg" class="img-fluid" />
+                    <img src="https://prokleanservices.com/wp-content/uploads/2025/09/prokleanFG-pack-front.jpg" />
                 </div>
             </div>
-
         </div>
 
-        <!-- Modal -->
+        <!-- ===============================
+             MODAL WINDOW (Instructions)
+        ================================ -->
         <div id="myModal" class="modal" style="display: none;">
             <div class="content">
                 <div class="modal-content">
+
+                    <!-- Modal Header -->
                     <div class="modal-header">
                         <span class="close">✖</span>
                         <h2>ProKlean Instructions</h2>
                     </div>
+
+                    <!-- Modal Body -->
                     <div class="modal-body" id="instructions">&nbsp;</div>
-                    <div class="modal-footer d-flex justify-content-between">
-                        <input type="button" id="copybutton" class="btn btn-primary" value="Copy to Clipboard" />
-                        <input type="button" id="printbutton" class="btn btn-primary" value="Print Instructions" />
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <input type="button" id="copybutton" value="Copy to Clipboard" />
+                        <input type="button" id="printbutton" value="Print Instructions" />
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
     <?php
     return ob_get_clean();
 }
